@@ -1,0 +1,49 @@
+snippet class "Creates a class skeleton"
+class $1 $0{
+ public:
+  $1() = delete;
+  virtual ~$1() {}
+  $1(const $1& other) = delete;
+  $1& operator=(const $1& other) = delete;
+};
+endsnippet
+
+snippet ns "Creates a namespace wrapping"
+namespace $1 {
+
+$0
+
+}  // namespace $1
+endsnippet
+
+snippet test "Creates a gtest test skeleton"
+#include "gtest/gtest.h"
+
+namespace $1 {
+
+TEST($2, $3) {
+	$0
+}
+
+}  // namespace $1
+endsnippet
+
+snippet up "shortcut for std::unique_ptr" w
+std::unique_ptr<$1>$0
+endsnippet
+
+snippet mu "shortcut for std::make_unique" w
+std::make_unique<$1>($0)
+endsnippet
+
+snippet sp "shortcut for std::shared_ptr" w
+std::shared_ptr<$1>$0
+endsnippet
+
+snippet ms "shortcut for std::make_shared" w
+std::make_shared<$1>($0)
+endsnippet
+
+snippet millis "shortcut for std::chrono::milliseconds" w
+std::chrono::milliseconds$0
+endsnippet
