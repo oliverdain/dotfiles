@@ -148,12 +148,12 @@ if ! has("gui_running")
   highlight DiffText cterm=none ctermfg=Black ctermbg=Magenta
 endif
 
-if has("gui_running")
-   set background=light
-endif
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General commands/keyboard shortcuts for all files
+
+" FZF fuzzy finder
+map <leader>f :FZF<cr>
+command! -nargs=1 -complete=dir F :FZF <args>
 
 "commands for easily adding a blank line above or below the current line
 map <leader>o o<esc>
@@ -456,16 +456,6 @@ endfunction
 
 autocmd FileType * call LC_maps()
 
-""""
-" Configs for multiple languages
-" highlight characters after column 80
-hi TooManyChars guifg=White guibg=Red ctermfg=White ctermbg=Red
-autocmd FileType java,cpp,c,python,javascript match TooManyChars /\%>120v.\+/
-" Quick command to turn off this highlighting. Handy when editing files that don't conform to the char limit.
-" TODO: This turns off highlighting globally. Should figure out how to do it
-" for just the current buffer.
-command! NoHl :hi TooManyChars NONE
-
 """
 " Markdown
 
@@ -565,3 +555,8 @@ endif
 if !has('gui_vimr')
    let &guifont=&guifont
 endif
+
+" Color scheme and underline spelling errors instead of highlighting them
+colo koehler
+hi clear SpellBad
+hi SpellBad cterm=underline
