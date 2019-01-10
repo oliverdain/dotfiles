@@ -51,6 +51,11 @@ if has('nvim')
    :tnoremap <Esc> <C-\><C-n>
 endif
 
+" VV NeoVim GUI setup
+if exists('g:vv')
+   VVset fontfamily=Menlo,Monaco,monospace
+endif
+
 " end neovim setup
 
 " general deoplete config
