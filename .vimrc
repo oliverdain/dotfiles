@@ -32,6 +32,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'gilligan/vim-lldb'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
+  Plug 'Nymphium/nyaovim-dynfont'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
