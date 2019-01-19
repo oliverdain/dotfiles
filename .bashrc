@@ -42,14 +42,17 @@ source ~/bin/git-completion.bash
 alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name '*.cpp' \)"
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 
-if command -v kubectl
+if command -v kubectl > /dev/null
 then
     source <(kubectl completion bash)
 fi
 
 if [[ -e ~/.bashrc_os_specific ]]
+then
     source ~/.bashrc_os_specific
 fi
 
 # set +x
 # exec 2>&3 3>&-
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -29,7 +29,7 @@ Plug 'sjbach/lusty'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'gilligan/vim-lldb'
+Plug 'llvm-mirror/lldb'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
