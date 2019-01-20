@@ -52,7 +52,7 @@ then
     source ~/.bashrc_os_specific
 fi
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # set +x
 # exec 2>&3 3>&-
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

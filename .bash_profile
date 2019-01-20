@@ -1,6 +1,11 @@
 
 # added by Anaconda3 4.4.0 installer
-export PATH="/Users/oliverdain/bin:/Users/oliverdain/anaconda/bin:$PATH"
+if [[ $(uname -s) = "Darwin" ]]
+then
+   export PATH="/Users/oliverdain/bin:/Users/oliverdain/anaconda/bin:$PATH"
+else
+   export PATH="/home/oliver/bin:$PATH"
+fi
 
 export HISTFILESIZE=10000
 export HISTSIZE=10000
