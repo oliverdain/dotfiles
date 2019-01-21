@@ -25,11 +25,11 @@ Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar'
-Plug 'sjbach/lusty'
+Plug 'kien/ctrlp.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'gilligan/vim-lldb'
+Plug 'llvm-mirror/lldb'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -547,16 +547,13 @@ autocmd FileType text setlocal textwidth=120
 
 
 """"
-" LustyExplorer
+" CtrlP
 " Don't print annoying warning if machine doesn't have Ruby support
-let g:LustyExplorerSuppressRubyWarning = 1
-if has('ruby')
-   nmap ,e :LustyFilesystemExplorerFromHere<CR>
-   " ,p opens a filesystem explorer from the current working director (p is short
-   " for pwd)
-   nmap ,p :LustyFilesystemExplorer<CR>
-   nmap ,b :LustyBufferExplorer<CR>
-endif
+nmap ,e :CtrlP %:p:h<CR>
+" ,p opens a filesystem explorer from the current working director (p is short
+" for pwd)
+nmap ,p :CtrlP<CR>
+nmap ,b :CtrlPBuffer<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!

@@ -6,11 +6,8 @@
 # exec 3>&2 2>/tmp/bashstart.$$.log
 # set -x
 
-alias act='source activate'
-alias dact='source deactivate'
 alias ll="ls -lh"
 alias lf="ls -F"
-alias vlc=/Applications/VLC.app/Contents/MacOS/VLC
 
 # Defines a function that lets you search for a file walking "up" directories.
 # For example, if you call "find_up foo" this will start with pwd and, if pwd
@@ -42,23 +39,20 @@ find_up() {
 alias g='$(find_up settings.gradle)/gradlew'
 
 source ~/bin/git-completion.bash
-alias sync_to_s3='aws s3 sync --exclude='.DS_Store' /Volumes/RevlData/s3 s3://com.revl.video'
-alias sync_from_s3='aws s3 sync s3://com.revl.video /Volumes/RevlData/s3'
 alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name '*.cpp' \)"
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 
-# fasd setup https://github.com/clvv/fasd/blob/master/README.md
-eval "$(fasd --init auto)"
-alias v='f -e mvim'
+if command -v kubectl > /dev/null
+then
+    source <(kubectl completion bash)
+fi
 
-export ANDROID_HOME=~/Library/Android/sdk
+if [[ -e ~/.bashrc_os_specific ]]
+then
+    source ~/.bashrc_os_specific
+fi
 
-testonly() {
-   g testOSXDebug --testArgs="--gtest_filter=$1"
-}
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # set +x
 # exec 2>&3 3>&-
-source <(kubectl completion bash)
-
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash

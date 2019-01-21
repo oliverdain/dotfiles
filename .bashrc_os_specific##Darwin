@@ -1,0 +1,14 @@
+# For Anaconda Python to activate and deactivate Python environments
+alias act='source activate'
+alias dact='source deactivate'
+
+alias vlc=/Applications/VLC.app/Contents/MacOS/VLC
+
+testonly() {
+   g testOSXDebug --testArgs="--gtest_filter=$1"
+}
+
+# fasd setup https://github.com/clvv/fasd/blob/master/README.md
+eval "$(fasd --init auto)"
+alias v='f -e mvim'
+
