@@ -1,8 +1,7 @@
-if file_readable('/usr/local/bin/python')
-  " This most likely means we're on OSX and brew installed Python
-  let g:python2_host_prog = '/usr/local/bin/python'
-  let g:python3_host_prog = '/usr/local/bin/python3'
-else
+if !file_readable('/usr/local/bin/python3')
+  " This most likely means we're on Linux. On OSX we use a combination of and
+  " brew installed Python and system installed but we don't have to do
+  " anything
   let g:python2_host_prog = '/usr/bin/python'
   let g:python3_host_prog = '/usr/bin/python3'
 endif
