@@ -164,6 +164,9 @@ command! -nargs=1 -complete=dir F :FZF <args>
 map <leader>o o<esc>
 map <leader>O O<esc>
 
+" close the quickfix list and/or the preview window
+map <leader>c :ccl<cr> && :pc<cr>
+
 " emacs like key bindings in insert mode
 imap <C-e> <esc>$a
 imap <C-a> <esc>0i
