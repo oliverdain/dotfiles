@@ -165,7 +165,7 @@ map <leader>o o<esc>
 map <leader>O O<esc>
 
 " close the quickfix list and/or the preview window
-map <leader>c :ccl<cr> && :pc<cr>
+map <leader>c :ccl<cr> <Bar> :pc<cr>
 
 " emacs like key bindings in insert mode
 imap <C-e> <esc>$a
@@ -552,7 +552,7 @@ autocmd FileType text setlocal textwidth=120
 nmap ,e :CtrlP %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,p :CtrlP<CR>
+nmap ,p :CtrlP getcwd()<CR>
 nmap ,b :CtrlPBuffer<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
@@ -564,4 +564,4 @@ endif
 " Color scheme and underline spelling errors instead of highlighting them
 colo koehler
 hi clear SpellBad
-hi SpellBad cterm=underline
+hi SpellBad cterm=underline gui=underline
