@@ -160,6 +160,9 @@ endif
 map <leader>f :FZF<cr>
 command! -nargs=1 -complete=dir F :FZF <args>
 
+" Quick shortcut to restart LanguageClient (sometimes it gets kinda stuck)
+command! Lcr call LanguageClient#exit()|call LanguageClient#startServer()
+
 "commands for easily adding a blank line above or below the current line
 map <leader>o o<esc>
 map <leader>O O<esc>
