@@ -1,0 +1,7 @@
+[user]
+	name = Oliver Dain
+	email = oliver@revl.com
+[credential]
+	helper = osxkeychain
+[core]
+	editor = /usr/local/bin/nvim
