@@ -22,7 +22,6 @@ Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'mileszs/ack.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar'
 Plug 'kien/ctrlp.vim'
@@ -71,10 +70,6 @@ endif
 " When you use :AsyncRun open the quickfix window and show 8 lines
 :let g:asyncrun_open = 8
 
-" Nerdtree shortcuts
-map <C-n> :NERDTree %:p:h<CR>
-map <C-p> :NERDTree<CR>
-
 " To use ag/Silver Searcher (https://github.com/ggreer/the_silver_searcher)
 " with the Ack plugin
 if executable('ag')
@@ -83,6 +78,15 @@ endif
 
 " Make backspace back up a tabstop. Especailly handy for editing Python
 set smarttab
+
+"""
+" netrw setup
+
+" make long listing the default
+let g:netrw_liststyle = 1
+" Hide the leading . and .. lines
+let g:netrw_list_hide = '^\./,^\.\./'
+
 
 " Ultisnips defaults to <tab> but that conflicts with YouCompleteMe
 let g:UltiSnipsExpandTrigger = '<C-j>'
@@ -551,7 +555,11 @@ autocmd FileType text setlocal textwidth=120
 
 """"
 " CtrlP
-" Don't print annoying warning if machine doesn't have Ruby support
+
+" open new files (ctrl-y) in the current window instead of the default of a
+" new vertical split.
+let g:ctrlp_open_new_file = 'r'
+
 nmap ,e :CtrlP %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
