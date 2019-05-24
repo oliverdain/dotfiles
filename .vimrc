@@ -29,6 +29,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'llvm-mirror/lldb'
+Plug 'IN3D/vim-raml'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -165,7 +166,8 @@ map <leader>f :FZF<cr>
 command! -nargs=1 -complete=dir F :FZF <args>
 
 " Quick shortcut to restart LanguageClient (sometimes it gets kinda stuck)
-command! Lcr call LanguageClient#exit()|call LanguageClient#startServer()
+" The sleep is 'cause if you exit and restart really fast the restart fails.
+command! Lcr call LanguageClient#exit()|sleep 1|call LanguageClient#startServer()
 
 "commands for easily adding a blank line above or below the current line
 map <leader>o o<esc>
@@ -516,9 +518,18 @@ function! EditExtension(ext)
    :execute "e" l:newfile
 endfunction
 
+" Find the test for a file and opens it.
+function! OpenTest()
+   let l:basefile = expand('%:t:r')
+   let l:newfile_name = 'test_' . l:basefile . '.cpp'
+   let l:newfile = FindRelToSubProject(l:newfile_name)
+   :execute "e" l:newfile
+endfunction
+
 " Add ability to switch from .h to .cc quickly
 command! Toh :call EditExtension('.h')
 command! Toc :call EditExtension('.cpp')
+command! Tot :call OpenTest()
 
 autocmd FileType c,cpp setlocal et ts=2 sw=2 tw=120 
 " spell check is smart enough to only check spelling in comments and strings,
