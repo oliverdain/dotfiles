@@ -30,6 +30,7 @@ Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.s
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'llvm-mirror/lldb'
 Plug 'IN3D/vim-raml'
+Plug 'tpope/vim-abolish'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -485,7 +486,7 @@ let g:vim_markdown_folding_level = 6
 autocmd FileType python setlocal foldmethod=indent
 " set foldlevel really high so that, initially, all folds are open
 autocmd FileType python setlocal foldlevel=1000
-autocmd FileType python setlocal et ts=4 sw=4 tw=79
+autocmd FileType python setlocal et ts=4 sw=4 tw=120
 autocmd FileType python map <leader>l :call Flake8()<CR>
 autocmd FileType python setlocal completeopt=menu,longest,preview
 autocmd FileType python nmap <buffer> <C-]> :call g:jedi#goto()<CR>

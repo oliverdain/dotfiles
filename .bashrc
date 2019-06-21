@@ -8,6 +8,7 @@
 
 alias ll="ls -lh"
 alias lf="ls -F"
+alias ipy="ipython --matplotlib=qt5"
 
 # Defines a function that lets you search for a file walking "up" directories.
 # For example, if you call "find_up foo" this will start with pwd and, if pwd

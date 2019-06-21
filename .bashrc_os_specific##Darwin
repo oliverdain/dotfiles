@@ -12,3 +12,4 @@ testonly() {
 eval "$(fasd --init auto)"
 alias v='f -e mvim'
 
+export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
