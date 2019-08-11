@@ -11,5 +11,6 @@ testonly() {
 # fasd setup https://github.com/clvv/fasd/blob/master/README.md
 eval "$(fasd --init auto)"
 alias v='f -e mvim'
+alias awsd='aws --profile=awsdev'
 
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion

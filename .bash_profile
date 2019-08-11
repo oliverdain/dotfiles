@@ -12,8 +12,13 @@ export HISTSIZE=10000
 HISTCONTROL=ignoreboth
 shopt -s histappend
 
-# match all files and zero or more directories and subdirectories.
-shopt -s globstar
+# If the shell supports the globstar option (older bash shells do not including the
+# one on OSX) then set it so that "**" match all files and zero or more directories
+# and subdirectories.
+if shopt | grep globstar
+then
+   shopt -s globstar
+fi
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -24,3 +29,8 @@ if [ -f ~/.bashrc ]; then
 fi
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
+if [[ -e ~/.bashrc_os_specific ]]
+then
+    source ~/.bashrc_os_specific
+fi
