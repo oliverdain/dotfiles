@@ -19,7 +19,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'SirVer/ultisnips'
 Plug 'nvie/vim-flake8'
-Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'mileszs/ack.vim'
 Plug 'ervandew/supertab'
@@ -75,7 +74,7 @@ endif
 " To use ag/Silver Searcher (https://github.com/ggreer/the_silver_searcher)
 " with the Ack plugin
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --nogroup --nocolor --column'
 endif
 
 " Make backspace back up a tabstop. Especailly handy for editing Python
@@ -444,6 +443,10 @@ let g:LanguageClient_hasSnippetSupport = 0
 " diagnostics that happen while you're in the middle of fixing the compile
 " errors
 let g:LanguageClient_diagnosticsList = 'Location'
+" So it doesn't put error messages inline next to the error - gets super
+" distracting otherwise 'cause you delete a ;, for example, and then there's
+" a big red error message on every line.
+let g:LanguageClient_useVirtualText = 0
 
 
 
