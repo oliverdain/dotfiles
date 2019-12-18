@@ -554,7 +554,25 @@ endfunction
 command! -narg=* G :call CallGradle(<f-args>)
 command! Gt :G buildTestOSXDebug
 
+function! CallBazel(...)
+   if a:0 == 0
+      let l:cmd = "bazel build ..."
+   else
+      let l:cmd = "bazel " . join(a:000)
+   endif
 
+    set errorformat=ERROR:\ %f:%l:%c:%m
+    set errorformat+=%f:%l:%c:%m
+
+    " Ignore build output lines starting with INFO:, Loading:, or [
+    set errorformat+=%-GINFO:\ %.%#
+    set errorformat+=%-GLoading:\ %.%#
+    set errorformat+=%-G[%.%#
+
+    execute ":AsyncRun " . l:cmd
+endfunction
+   
+command! -narg=* B :call CallBazel(<f-args>)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fileype specific configs for non-programming languages.
 
