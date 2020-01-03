@@ -427,9 +427,9 @@ au! BufNewFile * :call OnNewFile()
 
 " Set up Language Server Protocol plugin for all langs
 let g:LanguageClient_serverCommands = {
-   \ 'cpp': ['/Users/oliverdain/bin/cquery/bin/cquery', '--log-file=/tmp/cq.log',
-        \ '--init={"cacheDirectory":"/tmp/cquery/"}']
-   \ }
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    \ }
 " And hook it up to deoplete
 call deoplete#custom#option('sources', {
     \ 'cpp': ['LanguageClient'],
