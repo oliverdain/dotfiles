@@ -8,6 +8,35 @@ class $1 $0{
 };
 endsnippet
 
+snippet cright "Creates a basic header file skeleton"
+//
+// `!v expand("%:t")`
+// Revl
+//
+// Created by Oliver Dain on `!v strftime("%m/%d/%Y")`
+// Copyright © `!v strftime("%Y")` Revl. All rights reserved.
+//
+
+$0
+endsnippet
+
+snippet header "Creates a basic header file skeleton"
+//
+// `!v expand("%:t")`
+// Revl
+//
+// Created by Oliver Dain on `!v strftime("%m/%d/%Y")`
+// Copyright © `!v strftime("%Y")` Revl. All rights reserved.
+//
+
+#ifndef `!v ExpandIncludeGuard('.*cpp')`
+#define `!v ExpandIncludeGuard('.*cpp')`
+
+$0
+
+#endif  // `!v ExpandIncludeGuard('.*cpp')`
+endsnippet
+
 snippet ns "Creates a namespace wrapping"
 namespace $1 {
 

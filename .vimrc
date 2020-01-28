@@ -427,8 +427,8 @@ au! BufNewFile * :call OnNewFile()
 
 " Set up Language Server Protocol plugin for all langs
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python"]}}'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python"]}}']
     \ }
 " And hook it up to deoplete
 call deoplete#custom#option('sources', {
@@ -540,6 +540,13 @@ autocmd FileType c,cpp setlocal et ts=2 sw=2 tw=120
 " so turn that on for C++ code.
 autocmd FileType c,cpp setlocal spell
 
+" We have templates *and* UltiSnips for our copyright line and our standard
+" header junk. Unfortunately neither of those work in vscode with the Intellij
+" plugin so we also have commands for them here.
+command! Sheader :normal iheader<C-j>
+command! Scright :normal icright<C-j>
+
+
 function! CallGradle(...)
  let l:gradle_path = findfile('gradlew', '.;')
  " a:0 == # of args to the command
@@ -555,13 +562,19 @@ command! -narg=* G :call CallGradle(<f-args>)
 command! Gt :G buildTestOSXDebug
 
 function! CallBazel(...)
+   let l:workspace_path = findfile('WORKSPACE', ';')
+   let l:workspace_dir = fnamemodify(l:workspace_path, ':p:h')
    if a:0 == 0
       let l:cmd = "bazel build ..."
    else
       let l:cmd = "bazel " . join(a:000)
    endif
 
-    set errorformat=ERROR:\ %f:%l:%c:%m
+    " Each Bazel error starts with a line about the build rule which links to
+    " the BUILD.bazel which isn't helpful so we ignore that.
+    set errorformat=%-G%.%#C\+\+\ compilation\ of\ rule\ %.%#
+    set errorformat+=%DEntering\ %f
+    set errorformat+=ERROR:\ %f:%l:%c:%m
     set errorformat+=%f:%l:%c:%m
 
     " Ignore build output lines starting with INFO:, Loading:, or [
@@ -569,10 +582,15 @@ function! CallBazel(...)
     set errorformat+=%-GLoading:\ %.%#
     set errorformat+=%-G[%.%#
 
-    execute ":AsyncRun " . l:cmd
+    " In order to get the quickfix list to work we have to tell vim that files
+    " in errors are relative to the repo root (but we don't want to run from
+    " there as we'd like to be able to build from pwd to build just that
+    " project). So we set up an errorformat above with a %D rule and then we
+    " echo "Entering ..." so that quickfix picks that up correctly.
+    execute ":AsyncRun echo Entering " . l:workspace_dir . " && " . l:cmd
 endfunction
    
-command! -narg=* B :call CallBazel(<f-args>)
+command! -narg=* -complete=file B :call CallBazel(<f-args>)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fileype specific configs for non-programming languages.
 
