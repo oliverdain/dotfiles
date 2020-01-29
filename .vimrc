@@ -577,10 +577,11 @@ function! CallBazel(...)
     set errorformat+=ERROR:\ %f:%l:%c:%m
     set errorformat+=%f:%l:%c:%m
 
-    " Ignore build output lines starting with INFO:, Loading:, or [
-    set errorformat+=%-GINFO:\ %.%#
-    set errorformat+=%-GLoading:\ %.%#
-    set errorformat+=%-G[%.%#
+    " We currently have things set to show progress messages but if you want
+    " to hide them uncomment the following:
+    " set errorformat+=%+GINFO:\ %.%#
+    " set errorformat+=%+GLoading:\ %.%#
+    " set errorformat+=%+G[%.%#
 
     " In order to get the quickfix list to work we have to tell vim that files
     " in errors are relative to the repo root (but we don't want to run from
