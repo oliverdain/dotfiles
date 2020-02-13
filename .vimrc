@@ -507,8 +507,8 @@ nmap <leader>t :TagbarToggle<CR>
 
 function! FindRelToSubProject(fname)
    let l:thisdir = expand('%:p:h')
-   let l:buildfile = findfile('build.gradle', l:thisdir . ';')
-   let l:builddir = fnamemodify(l:buildfile, ':p:h')
+   let l:buildfile = findfile('WORKSPACE', l:thisdir . ';')
+   let l:builddir = fnamemodify(l:buildfile, ':p:h') . '/cpp'
    return findfile(a:fname, l:builddir . '/**')
 endfunction
 

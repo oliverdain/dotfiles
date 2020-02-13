@@ -11,3 +11,4 @@ alias awsd='aws --profile=awsdev'
 alias lintall='bazel test --test_tag_filters=lint //...'
 
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
+export AWS_PROFILE=awsdev
