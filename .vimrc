@@ -23,10 +23,10 @@ Plug 'tpope/vim-rhubarb'
 Plug 'mileszs/ack.vim'
 Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar'
-Plug 'kien/ctrlp.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'llvm-mirror/lldb'
 Plug 'IN3D/vim-raml'
 Plug 'tpope/vim-abolish'
@@ -612,11 +612,11 @@ autocmd FileType text setlocal textwidth=120
 " new vertical split.
 let g:ctrlp_open_new_file = 'r'
 
-nmap ,e :CtrlP %:p:h<CR>
+nmap ,e :FZF %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,p :CtrlP getcwd()<CR>
-nmap ,b :CtrlPBuffer<CR>
+nmap ,p :FZF<CR>
+nmap ,b :Buffers<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!

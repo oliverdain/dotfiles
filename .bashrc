@@ -55,7 +55,12 @@ then
     source ~/.bashrc_os_specific
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [[ -f ~/.fzf.bash ]]
+then
+   source ~/.fzf.bash
+   # Add completion for vv
+   complete -o bashdefault -o default -F _fzf_path_completion vv
+fi
 
 if [[ -e ~/Documents/code/usefuls/bash/bin/kns ]]
 then
