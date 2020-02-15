@@ -30,6 +30,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'llvm-mirror/lldb'
 Plug 'IN3D/vim-raml'
 Plug 'tpope/vim-abolish'
+Plug 'francoiscabrol/ranger.vim'
+" Required by ranger.vim
+Plug 'rbgrouleff/bclose.vim'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -57,6 +60,14 @@ if exists('g:vv')
 endif
 
 " end neovim setup
+
+" ranger.vim setup
+" Don't bind \f to ranger - we use that for FZF
+let g:ranger_map_keys = 0
+" Use ranger instead of netrw
+let g:ranger_replace_netrw = 1
+" And :Ex should also open ranger instead of netrw
+command! Ex :RangerCurrentFile
 
 " general deoplete config
 let g:deoplete#enable_at_startup = 1
