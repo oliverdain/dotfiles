@@ -33,6 +33,7 @@ Plug 'tpope/vim-abolish'
 Plug 'francoiscabrol/ranger.vim'
 " Required by ranger.vim
 Plug 'rbgrouleff/bclose.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -427,6 +428,8 @@ function! OnNewFile()
 endfunction
 
 au! BufNewFile * :call OnNewFile()
+map <leader>n :call OnNewFile()<cr>
+
 
 """""""""""""""""""""""""""" end templates
 
