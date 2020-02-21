@@ -4,13 +4,11 @@ alias dact='source deactivate'
 
 alias vlc=/Applications/VLC.app/Contents/MacOS/VLC
 
-testonly() {
-   g testOSXDebug --testArgs="--gtest_filter=$1"
-}
-
 # fasd setup https://github.com/clvv/fasd/blob/master/README.md
 eval "$(fasd --init auto)"
 alias v='f -e mvim'
 alias awsd='aws --profile=awsdev'
+alias lintall='bazel test --test_tag_filters=lint //...'
 
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
+export AWS_PROFILE=awsdev

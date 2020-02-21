@@ -9,6 +9,7 @@
 alias ll="ls -lh"
 alias lf="ls -F"
 alias ipy="ipython --matplotlib=qt5"
+alias lint="bazel test --test_tag_filters=lint"
 
 # Defines a function that lets you search for a file walking "up" directories.
 # For example, if you call "find_up foo" this will start with pwd and, if pwd
@@ -54,7 +55,17 @@ then
     source ~/.bashrc_os_specific
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [[ -f ~/.fzf.bash ]]
+then
+   source ~/.fzf.bash
+   # Add completion for vv
+   complete -o bashdefault -o default -F _fzf_path_completion vv
+fi
+
+if [[ -e ~/Documents/code/usefuls/bash/bin/kns ]]
+then
+   source ~/Documents/code/usefuls/bash/bin/kns
+fi
 
 # set +x
 # exec 2>&3 3>&-
