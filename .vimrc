@@ -460,7 +460,7 @@ let g:LanguageClient_diagnosticsList = 'Location'
 " So it doesn't put error messages inline next to the error - gets super
 " distracting otherwise 'cause you delete a ;, for example, and then there's
 " a big red error message on every line.
-let g:LanguageClient_useVirtualText = 0
+let g:LanguageClient_useVirtualText = 'No'
 
 
 

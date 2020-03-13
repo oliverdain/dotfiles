@@ -2,7 +2,7 @@
 # added by Anaconda3 4.4.0 installer
 if [[ $(uname -s) = "Darwin" ]]
 then
-   export PATH="/Users/oliverdain/bin:/Users/oliverdain/anaconda/bin:$PATH"
+   export PATH="/Users/oliverdain/bin:/Users/oliverdain/anaconda3/bin:$PATH"
 else
    export PATH="/home/oliver/bin:$PATH"
 fi
