@@ -17,6 +17,8 @@ endif
 filetype off
 call plug#begin('~/.vim/plugged')
 
+Plug 'whiteinge/diffconflicts'
+Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
 Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-rhubarb'
@@ -626,11 +628,16 @@ autocmd FileType text setlocal textwidth=120
 " new vertical split.
 let g:ctrlp_open_new_file = 'r'
 
-nmap ,e :FZF %:p:h<CR>
+if executable('ag')
+  " Use ag in CtrlP for listing files.
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
+nmap ,e :CtrlP %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,p :FZF<CR>
-nmap ,b :Buffers<CR>
+nmap ,p :CtrlP getcwd()<CR>
+nmap ,b :CtrlPBuffer<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!
