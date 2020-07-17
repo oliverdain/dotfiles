@@ -14,3 +14,8 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
+
+source /etc/bash_completion
+
+export EDITOR=/usr/bin/nvim
+export CC=/usr/bin/clang

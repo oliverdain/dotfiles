@@ -463,7 +463,6 @@ let g:LanguageClient_diagnosticsList = 'Location'
 let g:LanguageClient_useVirtualText = 'No'
 
 
-
 " Per LanguageClient docs: https://github.com/cquery-project/cquery/wiki/Vim
 augroup LanguageClient_config
   au!
@@ -620,7 +619,7 @@ autocmd FileType text setlocal textwidth=120
 
 
 """"
-" CtrlP
+" CtrlP/FZF
 
 " open new files (ctrl-y) in the current window instead of the default of a
 " new vertical split.
@@ -631,6 +630,8 @@ nmap ,e :FZF %:p:h<CR>
 " for pwd)
 nmap ,p :FZF<CR>
 nmap ,b :Buffers<CR>
+" Create a new file in the same directory as the current one
+nmap ,m :e %:h/
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!

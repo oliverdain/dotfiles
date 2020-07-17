@@ -67,5 +67,20 @@ then
    source ~/Documents/code/usefuls/bash/bin/kns
 fi
 
+
+# Some history stuff (see .bash_profile for the other half and links
+# to references)
+# Remove duplicates from the history file when saving.
+HISTCONTROL=ignoreboth
+
+# Function to reload the bash history so the history in one terminal
+# contains commands from the others (assumes the PROMPT_COMMAND hack
+# that's in ~/..bash_profile.
+hr() {
+   builtin history -a
+   builtin history -c
+   builtin history -r
+}
+
 # set +x
 # exec 2>&3 3>&-
