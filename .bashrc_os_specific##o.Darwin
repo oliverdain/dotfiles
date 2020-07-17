@@ -12,3 +12,6 @@ alias lintall='bazel test --test_tag_filters=lint //...'
 
 export VAGRANT_DEFAULT_PROVIDER=vmware_fusion
 export AWS_PROFILE=awsdev
+export EDITOR=/usr/local/bin/nvim
+# Get rid of the warning from Apple that zsh is now the default.
+export BASH_SILENCE_DEPRECATION_WARNING=1

@@ -17,6 +17,8 @@ endif
 filetype off
 call plug#begin('~/.vim/plugged')
 
+Plug 'whiteinge/diffconflicts'
+Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
 Plug 'nvie/vim-flake8'
 Plug 'tpope/vim-rhubarb'
@@ -441,8 +443,8 @@ map <leader>n :call OnNewFile()<cr>
 
 " Set up Language Server Protocol plugin for all langs
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python"]}}'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python"]}}']
+    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}']
     \ }
 " And hook it up to deoplete
 call deoplete#custom#option('sources', {
@@ -466,8 +468,11 @@ let g:LanguageClient_useVirtualText = 'No'
 " Per LanguageClient docs: https://github.com/cquery-project/cquery/wiki/Vim
 augroup LanguageClient_config
   au!
+  " LanguageClient is way too noisy (at least for C++) otherwise - the gutter
+  " is just littered with false alarm signs. Also there's bugs in some neovim
+  " GUIs so the signs don't go away even when the issue is fixed.
+  let g:LanguageClient_diagnosticsSignsMax = 0
   au BufEnter * let b:Plugin_LanguageClient_started = 0
-  au User LanguageClientStarted setl signcolumn=yes
   au User LanguageClientStarted let b:Plugin_LanguageClient_started = 1
   au User LanguageClientStopped setl signcolumn=auto
   au User LanguageClientStopped let b:Plugin_LanguageClient_stopped = 0
@@ -485,6 +490,10 @@ if has_key(g:LanguageClient_serverCommands, &filetype)
   command! Rename :call LanguageClient#textDocument_rename()<CR>
   " Try to fix issues that have been identified
   command! Fix :call LanguageClient#textDocument_codeAction()<CR>
+  " Look up a symbol - note this fails with random errors (e.g. unexpected end
+  " of input) until CCLS has indexed things but it does work most of the time
+  " and is super handy.
+  command! -nargs=1 Symbol :call LanguageClient#workspace_symbol(<q-args>)<CR>
 endif
 endfunction
 
@@ -625,13 +634,17 @@ autocmd FileType text setlocal textwidth=120
 " new vertical split.
 let g:ctrlp_open_new_file = 'r'
 
-nmap ,e :FZF %:p:h<CR>
+if executable('ag')
+  " Use ag in CtrlP for listing files.
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
+nmap ,e :CtrlP %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,p :FZF<CR>
-nmap ,b :Buffers<CR>
-" Create a new file in the same directory as the current one
 nmap ,m :e %:h/
+nmap ,p :CtrlP getcwd()<CR>
+nmap ,b :CtrlPBuffer<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!

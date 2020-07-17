@@ -23,7 +23,7 @@
    tool = diffconflicts
 
 [mergetool "diffconflicts"]
-   cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	cmd = nvim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
    trustExitCode = true
    keepBackup = false
 [filter "lfs"]
