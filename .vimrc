@@ -36,6 +36,10 @@ Plug 'francoiscabrol/ranger.vim'
 " Required by ranger.vim
 Plug 'rbgrouleff/bclose.vim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+" A collection of color schemes
+Plug 'flazz/vim-colorschemes'
+" papercolor color scheme
+Plug 'NLKNguyen/papercolor-theme'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -50,6 +54,13 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " End of Vim-Plug setup.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Color scheme and underline spelling errors instead of highlighting them
+" Other colorscheme's I've liked: apprentice and jellybean
+set background=dark
+colo PaperColor
+hi clear SpellBad
+hi SpellBad cterm=underline gui=underline
 
 " neovim setup
 if has('nvim')
@@ -163,14 +174,15 @@ set nobackup
 filetype plugin indent on
 filetype plugin on
 
-" Vimdiff highlighting
-if ! has("gui_running")
-  " Make vimdiff colors not suck
-  highlight DiffAdd cterm=none ctermfg=Black ctermbg=Green
-  highlight DiffDelete cterm=none ctermfg=Black ctermbg=Red
-  highlight DiffChange cterm=none ctermfg=Black ctermbg=Yellow
-  highlight DiffText cterm=none ctermfg=Black ctermbg=Magenta
-endif
+" Vimdiff highlighting - commented out for now as I'm hoping color schemes
+" will handle this better.
+" if ! has("gui_running")
+"   " Make vimdiff colors not suck
+"   highlight DiffAdd cterm=none ctermfg=Black ctermbg=Green
+"   highlight DiffDelete cterm=none ctermfg=Black ctermbg=Red
+"   highlight DiffChange cterm=none ctermfg=Black ctermbg=Yellow
+"   highlight DiffText cterm=none ctermfg=Black ctermbg=Magenta
+" endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General commands/keyboard shortcuts for all files
@@ -651,8 +663,3 @@ nmap ,b :CtrlPBuffer<CR>
 if !has('gui_vimr')
    let &guifont=&guifont
 endif
-
-" Color scheme and underline spelling errors instead of highlighting them
-colo koehler
-hi clear SpellBad
-hi SpellBad cterm=underline gui=underline
