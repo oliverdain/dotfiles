@@ -34,6 +34,12 @@ then
     source ~/.bashrc_os_specific
 fi
 
+# For config that's local to a machine and not otherwise shared (e.g. work specific setttings)
+if [[ -e ~/.bashrc_local ]]
+then
+    source ~/.bashrc_local
+fi
+
 # A bunch of history stuff - inspried by
 # https://unix.stackexchange.com/a/48116 and
 # https://unix.stackexchange.com/a/18443
