@@ -62,12 +62,6 @@ then
    complete -o bashdefault -o default -F _fzf_path_completion vv
 fi
 
-if [[ -e ~/Documents/code/usefuls/bash/bin/kns ]]
-then
-   source ~/Documents/code/usefuls/bash/bin/kns
-fi
-
-
 # Some history stuff (see .bash_profile for the other half and links
 # to references)
 # Remove duplicates from the history file when saving.
