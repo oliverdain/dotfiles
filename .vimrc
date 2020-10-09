@@ -55,6 +55,20 @@ filetype plugin indent on
 " End of Vim-Plug setup.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" HOPEFULLY temporary bug workarounds and things
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" there's a bug with Konsole (KDE terminal) and nvim and this fixes it. See
+" https://github.com/neovim/neovim/issues/6403. Or, if I can settle on a GUI
+" I can maybe only do this if no GUI is detected. There isn't any _reliable_
+" way to detect if the console is Konsole
+set guicursor=
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" END HOPEFULLY temporary bug workarounds and things
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Color scheme and underline spelling errors instead of highlighting them
 " Other colorscheme's I've liked: apprentice and jellybean
 set background=dark
