@@ -35,9 +35,9 @@ then
 fi
 
 # For config that's local to a machine and not otherwise shared (e.g. work specific setttings)
-if [[ -e ~/.bashrc_local ]]
+if [[ -e ~/.bash_profile_local ]]
 then
-    source ~/.bashrc_local
+    source ~/.bash_profile_local
 fi
 
 # A bunch of history stuff - inspried by
