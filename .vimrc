@@ -76,6 +76,9 @@ colo PaperColor
 hi clear SpellBad
 hi SpellBad cterm=underline gui=underline
 
+" Work with the sytem clipboard
+set clipboard=unnamedplus
+
 " neovim setup
 if has('nvim')
    " Make normal escape exit terminal mode
