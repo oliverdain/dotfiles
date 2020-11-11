@@ -76,5 +76,13 @@ hr() {
    builtin history -r
 }
 
+# fasd setup https://github.com/clvv/fasd/blob/master/README.md
+FASD_LOC=$(which fasd)
+if [[ $? && -e $FASD_LOC ]]
+then
+   eval "$($FASD_LOC --init auto)"
+   alias v='f -e $EDITOR'
+fi
+
 # set +x
 # exec 2>&3 3>&-

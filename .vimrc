@@ -63,7 +63,9 @@ filetype plugin indent on
 " https://github.com/neovim/neovim/issues/6403. Or, if I can settle on a GUI
 " I can maybe only do this if no GUI is detected. There isn't any _reliable_
 " way to detect if the console is Konsole
-set guicursor=
+if !exists('g:fvim_loaded')
+   set guicursor=
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " END HOPEFULLY temporary bug workarounds and things
@@ -86,9 +88,9 @@ if has('nvim')
 endif
 
 " VV NeoVim GUI setup
-if exists('g:vv')
-   VVset fontfamily=Menlo,Monaco,monospace
-endif
+" if exists('g:vv')
+"    VVset fontfamily=Menlo,Monaco,monospace
+" endif
 
 " end neovim setup
 
