@@ -64,6 +64,13 @@ endif
 
 " end neovim setup
 
+" Use clipboard as default register
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
+
 " ranger.vim setup
 " Don't bind \f to ranger - we use that for FZF
 let g:ranger_map_keys = 0
