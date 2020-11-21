@@ -18,4 +18,4 @@ unset color_prompt force_color_prompt
 source /etc/bash_completion
 
 export EDITOR=/usr/bin/nvim
-export CC=/usr/bin/clang
+# export CC=/usr/bin/clang

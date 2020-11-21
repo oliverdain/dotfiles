@@ -62,12 +62,6 @@ then
    complete -o bashdefault -o default -F _fzf_path_completion vv
 fi
 
-if [[ -e ~/Documents/code/usefuls/bash/bin/kns ]]
-then
-   source ~/Documents/code/usefuls/bash/bin/kns
-fi
-
-
 # Some history stuff (see .bash_profile for the other half and links
 # to references)
 # Remove duplicates from the history file when saving.
@@ -81,6 +75,14 @@ hr() {
    builtin history -c
    builtin history -r
 }
+
+# fasd setup https://github.com/clvv/fasd/blob/master/README.md
+FASD_LOC=$(which fasd)
+if [[ $? && -e $FASD_LOC ]]
+then
+   eval "$($FASD_LOC --init auto)"
+   alias v='f -e $EDITOR'
+fi
 
 # set +x
 # exec 2>&3 3>&-
