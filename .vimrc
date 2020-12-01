@@ -109,6 +109,13 @@ endfunction
 nmap <C-+> :call AdjustFontSize(1)<cr>
 nmap <C--> :call AdjustFontSize(-1)<cr>
 nmap <C-0> :call SetFontSize(12)<cr>
+"
+" Use clipboard as default register
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
 
 " ranger.vim setup
 " Don't bind \f to ranger - we use that for FZF

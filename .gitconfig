@@ -26,11 +26,10 @@
 	cmd = nvim -c DiffConflicts \"$MERGED\" \"$BASE\" \"$LOCAL\" \"$REMOTE\"
    trustExitCode = true
    keepBackup = false
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE 
 [filter "lfs"]
+	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-	required = true
-
-[mergetool "vimdiff"]
-  cmd = nvim -d $LOCAL $REMOTE 
