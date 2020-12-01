@@ -94,6 +94,22 @@ endif
 
 " end neovim setup
 
+" Font size changes via C-+ and C--
+let s:fontsize = 12
+
+function! SetFontSize(size)
+   let s:fontsize=a:size
+  :execute "GuiFont! DejaVu\ Sans\ Mono:h" . s:fontsize
+endfunction
+
+function! AdjustFontSize(amount)
+  :call SetFontSize(s:fontsize+a:amount)
+endfunction
+
+nmap <C-+> :call AdjustFontSize(1)<cr>
+nmap <C--> :call AdjustFontSize(-1)<cr>
+nmap <C-0> :call SetFontSize(12)<cr>
+
 " ranger.vim setup
 " Don't bind \f to ranger - we use that for FZF
 let g:ranger_map_keys = 0
@@ -174,7 +190,7 @@ set showmatch           "show matching brackets
 set wildmode=longest,list
 
 " Turn on a fancy status line
-set statusline=%m\ [File:\ %f]\ [Type:\ %Y]\ [ASCII:\ %03.3b]\ [Col:\ %03v]\ [Line:\ %04l\ of\ %L]
+set statusline=%m\ [File:\ %f]\ [Type:\ %Y]\ [Col:\ %03v]\ [Line:\ %04l\ of\ %L]
 set laststatus=2 " always show the status line
 
 " Turn off swap files. Gets rid of annoying warnings that the file is open in
