@@ -75,8 +75,12 @@ endif
 " Other colorscheme's I've liked: apprentice and jellybean
 set background=dark
 colo PaperColor
-hi clear SpellBad
-hi SpellBad cterm=underline gui=underline
+" The spelling color schedume for PaperColor is awful so change it.
+" Experimentally I needed a autocmd 'cause I think when you load a file that
+" has syntax highlighting the colorscheme changes which would otherwise wipe
+" out these rules.
+autocmd ColorScheme *
+         \ hi clear SpellBad | hi SpellBad cterm=underline gui=underline
 
 " Work with the sytem clipboard
 set clipboard=unnamedplus
