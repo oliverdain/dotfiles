@@ -73,6 +73,11 @@ endif
 " END HOPEFULLY temporary bug workarounds and things
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Autoreload files if they were changed externally
+set autoread
+" And check for changed files if the cursor hasn't moved in 4 seconds
+au CursorHold * checktime 
+
 " Color scheme and underline spelling errors instead of highlighting them
 " Other colorscheme's I've liked: apprentice and jellybean
 set background=dark
@@ -249,6 +254,9 @@ map <leader>O O<esc>
 
 " close the quickfix list and/or the preview window
 map <leader>c :ccl<cr> <Bar> :pc<cr>
+" quick navigatin for quickfix
+map <F7> :cprevious<CR>
+map <F8> :cnext<CR>
 
 " emacs like key bindings in insert mode
 imap <C-e> <esc>$a
@@ -503,8 +511,8 @@ map <leader>n :call OnNewFile()<cr>
 
 " Set up Language Server Protocol plugin for all langs
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
-    \ 'cpp': ['ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
+    \ 'c': ['nice', '-n15', 'ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
+    \ 'cpp': ['nice', '-n15', 'ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
     \ 'python': ['pyls', '-vv', '--log-file', '/tmp/pyls.log'],
     \ }
 " And hook it up to deoplete
