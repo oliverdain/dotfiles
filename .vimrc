@@ -631,8 +631,8 @@ function! CallMypyOnCurrentDir()
    :call CallMypy(l:curfile)
 endfunction
 
-command! MyPyF :call CallMypyOnCurrentFile()
-command! MyPyD :call CallMypyOnCurrentDir()
+command! Mf :call CallMypyOnCurrentFile()
+command! Md :call CallMypyOnCurrentDir()
 
 """"
 " C++
