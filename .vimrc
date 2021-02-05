@@ -591,6 +591,40 @@ autocmd FileType python setlocal completeopt=menu,longest,preview
 autocmd FileType python nmap <buffer> <C-]> :call g:jedi#goto()<CR>
 let g:jedi#popup_on_dot = 0
 
+" Find the project root by looking for a .mypy.ini file
+function! FindMypyRoot()
+   let l:thisdir = expand('%:p:h')
+   let l:mypyfile = findfile('.mypy.ini', l:thisdir . ';')
+   return fnamemodify(l:mypyfile, ':p:h')
+endfunction
+
+" Call mypy with one or more arguments. It's up to the caller of this function
+" to ensure that any file paths passed are relative to FindMypyRoot.
+function! CallMypy(...)
+   let l:mypyroot = FindMypyRoot()
+   if a:0 == 0
+      let l:cmd = "mypy"
+   else
+      let l:cmd = "mypy " . join(a:000)
+   endif
+
+   " Echo "entering..." so that quickfix understands the paths to files are
+   " from the mypyroot
+    execute ":AsyncRun echo Entering " . l:mypyroot . " && " . l:cmd
+endfunction
+
+function! CallMypyOnCurrentFile()
+   let l:curfile = substitute(expand("%:p"), FindMypyRoot() . '/', '', '')
+   :call CallMypy(l:curfile)
+endfunction
+
+function! CallMypyOnCurrentDir()
+   let l:curfile = substitute(expand("%:p:h"), FindMypyRoot() . '/', '', '')
+   :call CallMypy(l:curfile)
+endfunction
+
+command! MyPyF :call CallMypyOnCurrentFile()
+command! MyPyD :call CallMypyOnCurrentDir()
 
 """"
 " C++
