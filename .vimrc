@@ -40,6 +40,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
+" jedi provides completion and such for Python. Needed by pyls
+Plug 'davidhalter/jedi-vim'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim' , { 'do': ':UpdateRemotePlugins' }
 else
@@ -510,13 +512,27 @@ map <leader>n :call OnNewFile()<cr>
 " Set up Language Server Protocol plugin for all langs
 let g:LanguageClient_serverCommands = {
     \ 'c': ['nice', '-n15', 'ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
-    \ 'cpp': ['nice', '-n15', 'ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}']
+    \ 'cpp': ['nice', '-n15', 'ccls', '--log-file=/tmp/cc.log', '--init={"index": {"initialBlacklist": ["third_party", "bazel-.*", "python", "ios"]}}'],
+    \ 'python': ['pyls', '-vv', '--log-file', '/tmp/pyls.log'],
     \ }
 " And hook it up to deoplete
 call deoplete#custom#option('sources', {
     \ 'cpp': ['LanguageClient'],
     \ 'c': ['LanguageClient'],
+    \ 'python': ['LanguageClient']
 \})
+
+" Installs pyls (Python language server) and the plugins we use.
+" IMPORTANT: this will be installed in whatever the current python environment
+" is (e.g. a venv).
+function! SetupPytonLc()
+   execute '!pip install "python-language-server[autopep8]"'
+   execute '!pip install pyls-mypy'
+   " needed by pyls-mypy - see https://github.com/tomv564/pyls-mypy/issues/37#issuecomment-695963210
+   execute '!pip install future'
+endfunction
+
+command! SetupPyLc :call SetupPytonLc()
 
 " Overridden because it's currently hopelessly broken with UltiSnips. See
 " https://github.com/autozimu/LanguageClient-neovim/issues/379
