@@ -607,12 +607,19 @@ function! FindMypyRoot()
 endfunction
 
 " Call mypy with one or more arguments. It's up to the caller of this function
-" to ensure that any file paths passed are relative to FindMypyRoot.
+" to ensure that any file paths passed are relative to FindMypyRoot. Note that
+" we actually call "dmypy run" to use the mypy daemon.
+"
+" ACTUALLY: we don't currently use the daemon due to
+" https://github.com/python/mypy/issues/9366 - on our code it dies with
+" "KeyError: unittest".
 function! CallMypy(...)
    let l:mypyroot = FindMypyRoot()
    if a:0 == 0
+      " let l:cmd = "dmypy run"
       let l:cmd = "mypy"
    else
+      " let l:cmd = "dmypy run -- " . join(a:000)
       let l:cmd = "mypy " . join(a:000)
    endif
 
