@@ -596,7 +596,6 @@ autocmd FileType python setlocal foldlevel=1000
 autocmd FileType python setlocal et ts=4 sw=4 tw=120
 autocmd FileType python map <leader>l :call Flake8()<CR>
 autocmd FileType python setlocal completeopt=menu,longest,preview
-autocmd FileType python nmap <buffer> <C-]> :call g:jedi#goto()<CR>
 let g:jedi#popup_on_dot = 0
 
 " Find the project root by looking for a .mypy.ini file
