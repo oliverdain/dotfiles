@@ -1,7 +1,6 @@
 [user]
 	email = oliver@dains.org
 	name = Oliver Dain
-[credential]
-	helper = store
 [core]
 	editor = /usr/bin/nvim
+	askpass = /usr/bin/ksshaskpass
