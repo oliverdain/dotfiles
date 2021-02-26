@@ -17,9 +17,11 @@ endif
 " Called via "do" in the Plug command that installs COC. This installs my
 " standard set of plugs.
 function! InstallCocPlugins(info)
-   :CocInstall coc-pyright
-   :CocInstall coc-json
-   :CocInstall coc-yaml
+   :CocInstall -sync coc-pyright
+   :CocInstall -sync coc-json
+   :CocInstall -sync coc-yaml
+   :CocInstall -sync coc-markdownlint
+   :CocInstall -sync coc-explorer
 endfunction
 
 filetype off
@@ -227,8 +229,8 @@ command! -nargs=1 -complete=dir F :FZF <args>
 map <leader>o o<esc>
 map <leader>O O<esc>
 
-" close the quickfix list and/or the preview window
-map <leader>c :ccl<cr> <Bar> :pc<cr>
+" close the quickfix list, location list, and/or the preview window
+map <leader>c :ccl<cr> <Bar> :pc<cr> <Bar> :lclose<cr>
 " quick navigatin for quickfix
 map <F7> :cprevious<CR>
 map <F8> :cnext<CR>
@@ -273,6 +275,11 @@ map <leader>s {jV}k :!sort<cr>
 set signcolumn=yes
 
 " Use tabs for completions
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -292,10 +299,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " GoTo code navigation.
-nmap <silent> <leader>d <Plug>(coc-definition)
-nmap <silent> <leader>y <Plug>(coc-type-definition)
-nmap <silent> <leader>i <Plug>(coc-implementation)
-nmap <silent> <leader>r <Plug>(coc-references)
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gy <Plug>(coc-type-definition)
+nmap <silent> <leader>gi <Plug>(coc-implementation)
+nmap <silent> <leader>gr <Plug>(coc-references)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -319,6 +326,9 @@ nmap <leader>f  <Plug>(coc-format-selected)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
@@ -326,7 +336,14 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Show errors/issues
-command! Cerr :CocList diagnostics
+nmap <leader>e :CocList diagnostics<CR>
+nmap <leader>d :CocDiagnostics<CR>
+
+" File explorer
+:nnoremap <space>e :execute ":CocCommand explorer " . expand('%:p:h')<CR>
+:nnoremap <space>p :CocCommand explorer<CR>
+:nnoremap <space>b :CocCommand explorer --sources buffer+<CR>
+
 
 """
 " Markdown
@@ -337,13 +354,13 @@ let g:vim_markdown_folding_level = 6
 
 """"
 " Python
-autocmd FileType python setlocal foldmethod=indent
-" set foldlevel really high so that, initially, all folds are open
-autocmd FileType python setlocal foldlevel=1000
-autocmd FileType python setlocal et ts=4 sw=4 tw=120
-autocmd FileType python map <leader>l :call Flake8()<CR>
-autocmd FileType python setlocal completeopt=menu,longest,preview
-let g:jedi#popup_on_dot = 0
+
+
+" spell check is smart enough to only check spelling in comments and strings,
+" so turn that on for Pyhton code. Note that coc-spell-checker does _not_ seem
+" to be smart enough to ignore code and check only comments so we don't use
+" it.
+autocmd FileType python setlocal spell
 
 " Find the project root by looking for a .mypy.ini file
 function! FindMypyRoot()
@@ -393,8 +410,9 @@ command! Md :call CallMypyOnCurrentDir()
 " (e.g. the sub-project root) and then from there down for a file with the
 " given name.
 
-" tagbar setup
-nmap <leader>t :TagbarToggle<CR>
+" spell check is smart enough to only check spelling in comments and strings,
+" so turn that on for C++ code.
+autocmd FileType c,cpp setlocal spell
 
 function! FindRelToSubProject(fname)
    let l:thisdir = expand('%:p:h')
@@ -425,32 +443,6 @@ endfunction
 command! Toh :call EditExtension('.h')
 command! Toc :call EditExtension('.cpp')
 command! Tot :call OpenTest()
-
-autocmd FileType c,cpp setlocal et ts=2 sw=2 tw=120 
-" spell check is smart enough to only check spelling in comments and strings,
-" so turn that on for C++ code.
-autocmd FileType c,cpp setlocal spell
-
-" We have templates *and* UltiSnips for our copyright line and our standard
-" header junk. Unfortunately neither of those work in vscode with the Intellij
-" plugin so we also have commands for them here.
-command! Sheader :normal iheader<C-j>
-command! Scright :normal icright<C-j>
-
-
-function! CallGradle(...)
- let l:gradle_path = findfile('gradlew', '.;')
- " a:0 == # of args to the command
- if a:0 == 0
-    let l:cmd = l:gradle_path . " build"
- else
-    let l:cmd = l:gradle_path . " " . join(a:000)
- endif
- execute ":AsyncRun " . l:cmd
-endfunction
-
-command! -narg=* G :call CallGradle(<f-args>)
-command! Gt :G buildTestOSXDebug
 
 function! CallBazel(...)
    let l:workspace_path = findfile('WORKSPACE', ';')
@@ -490,7 +482,7 @@ command! -narg=* -complete=file B :call CallBazel(<f-args>)
 " and enter insert mode
 au BufNewFile,BufRead *.git/COMMIT_EDITMSG :1
 " text files are limited to 120 character lines
-autocmd FileType text setlocal textwidth=120
+autocmd FileType text setlocal textwidth=120 spell
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin configuration
