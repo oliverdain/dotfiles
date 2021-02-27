@@ -1,0 +1,7 @@
+{
+   "diagnostic.checkCurrentLine": true,
+
+   // Python
+   "python.linting.enabled": true,
+   "python.linting.flake8Enabled": true
+}
