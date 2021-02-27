@@ -14,16 +14,6 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim-Plug Setup
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Called via "do" in the Plug command that installs COC. This installs my
-" standard set of plugs.
-function! InstallCocPlugins(info)
-   :CocInstall -sync coc-pyright
-   :CocInstall -sync coc-json
-   :CocInstall -sync coc-yaml
-   :CocInstall -sync coc-markdownlint
-   :CocInstall -sync coc-explorer
-endfunction
-
 filetype off
 call plug#begin('~/.vim/plugged')
 
@@ -44,7 +34,7 @@ Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release', 'do': function('InstallCocPlugins') }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
 filetype plugin indent on
@@ -52,6 +42,13 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " End of Vim-Plug setup.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" This installs my standard set of COC plugs.
+function! InstallCocPlugins()
+   :CocInstall -sync coc-pyright coc-json coc-yaml coc-markdownlint coc-explorer
+endfunction
+
+command! InstallP :call InstallCocPlugins()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
@@ -355,6 +352,9 @@ let g:vim_markdown_folding_level = 6
 """"
 " Python
 
+" Let coc-pyright define the root by the presence of a pyrightconfig.json file
+" rather than backing up all the way to the .git directory.
+autocmd FileType python let b:coc_root_patterns = ['pyrightconfig.json', '.git']
 
 " spell check is smart enough to only check spelling in comments and strings,
 " so turn that on for Pyhton code. Note that coc-spell-checker does _not_ seem
