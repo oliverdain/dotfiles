@@ -3,5 +3,15 @@
 
    // Python
    "python.linting.enabled": true,
-   "python.linting.flake8Enabled": true
+   "python.linting.flake8Enabled": true,
+
+   // Markdown
+   "markdownlint.config": {
+      "line-length": {
+         "line_length": 120
+      }
+   },
+
+   // Bash/sh
+   "sh.enable": true
 }
