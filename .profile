@@ -1,11 +1,4 @@
-
-# added by Anaconda3 4.4.0 installer
-if [[ $(uname -s) = "Darwin" ]]
-then
-   export PATH="/Users/oliverdain/bin:/Users/oliverdain/anaconda3/bin:$PATH"
-else
-   export PATH="/home/oliver/bin:$PATH"
-fi
+export PATH="/home/oliver/bin:$PATH"
 
 export HISTFILESIZE=10000
 export HISTSIZE=10000
@@ -23,12 +16,6 @@ fi
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-if [ -f ~/.bashrc ]; then
-   source ~/.bashrc
-fi
-
-export PATH="$HOME/.poetry/bin:$PATH"
-
 if [[ -e ~/.bashrc_os_specific ]]
 then
     source ~/.bashrc_os_specific
@@ -40,12 +27,12 @@ then
     source ~/.bash_profile_local
 fi
 
-# A bunch of history stuff - inspried by
-# https://unix.stackexchange.com/a/48116 and
-# https://unix.stackexchange.com/a/18443
-
-
 # Flush command history to ~/.bash_history on each new command prompt
 # so that multiple terms can see each other's history and history isn't
 # lost if I kill a shell instead of logging out.
 export PROMPT_COMMAND='history -a'
+
+# BEGIN ANSIBLE MANAGED for pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+# END ANSIBLE MANAGED for pyenv
