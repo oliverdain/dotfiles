@@ -44,6 +44,7 @@ source ~/bin/git-completion.bash
 alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name '*.cpp' \)"
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
+alias act='source $(find_up venv)/venv/bin/activate'
 
 if command -v kubectl > /dev/null
 then

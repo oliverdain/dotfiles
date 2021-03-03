@@ -44,12 +44,20 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " This installs my standard set of COC plugs.
-function! InstallCocPlugins()
-   :CocInstall -sync coc-pyright coc-json coc-yaml coc-markdownlint coc-explorer
-            \ coc-sh
+function! _InstallCocPlugins()
+   " Note pyright worked great but does _not_ work with attr which Layer9 uses
+   " extensively so we now use pyls as a stand-alone (non COC extension).
+   " Consider moving back to coc-pyright.
+   :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh
 endfunction
 
-command! InstallP :call InstallCocPlugins()
+command! InstallP :call _InstallCocPlugins()
+
+" We use pyls as our language server and that's not a COC plugin. It needs to
+" be installed in the current venv so this will do that (assuming vim was
+" started with the right venv activated).
+command! InstallPyls :execute '!pip install python-language-server pyls-mypy pyls-flake8'
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
