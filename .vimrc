@@ -51,13 +51,15 @@ function! _InstallCocPlugins()
    :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh
 endfunction
 
-command! InstallP :call _InstallCocPlugins()
+command! InstallCocPlugins :call _InstallCocPlugins()
 
-" We use pyls as our language server and that's not a COC plugin. It needs to
-" be installed in the current venv so this will do that (assuming vim was
-" started with the right venv activated).
-command! InstallPyls :execute '!pip install python-language-server pyls-mypy pyls-flake8'
-
+" While we use CoC need a variety of Python packages to make it all work since
+" we use pyls instead of pyright, etc. In order to keep that out of every venv
+" we just patch our own venv that contains the stuff we need into the
+" PYTHONPATH. The fact that it's a python3.8 venv _probably_ doesn't matter
+" since the stuff we use is pure python and pretty backwards compatible.
+let s:VIMHOME=expand('<sfile>:p:h')
+let $PYTHONPATH=s:VIMHOME . "/.vim/editor_venv/venv/lib/python3.8/site-packages:" . $PYTHONPATH
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
