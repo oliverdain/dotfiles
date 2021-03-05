@@ -362,6 +362,7 @@ let g:vim_markdown_folding_level = 6
 
 """"
 " Python
+autocmd FileType python map! <buffer> <leader>l :call flake8#Flake8()<CR>
 
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
 " rather than backing up all the way to the .git directory.

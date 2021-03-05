@@ -30,6 +30,9 @@
                   },
                   "pyls_mypy": {
                      "enabled": true
+                  },
+                  "flake8": {
+                     "enabled": true
                   }
                }
             }
