@@ -1,3 +1,6 @@
 python-language-server
 pyls-mypy
 pyls-flake8
+mypy
+typed_ast
+flake8
