@@ -9,28 +9,5 @@
    },
 
    // Bash/sh
-   "sh.enable": true,
-
-   "languageserver": {
-      "pyls": {
-         "command": "~/.vim/editor_venv/run_pls.sh",
-         "filetypes": ["python"],
-         "settings": {
-            "pyls": {
-               "enable": true,
-               "plugins": {
-                  "pycodestyle": {
-                     "enabled": false
-                  },
-                  "pyls_mypy": {
-                     "enabled": true
-                  },
-                  "flake8": {
-                     "enabled": true
-                  }
-               }
-            }
-         }
-    }
-  }
+   "sh.enable": true
 }

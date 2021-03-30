@@ -25,6 +25,7 @@ Plug 'mileszs/ack.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'jesseleite/vim-agriculture'
 Plug 'francoiscabrol/ranger.vim'
 " Required by ranger.vim
 Plug 'rbgrouleff/bclose.vim'
@@ -45,10 +46,8 @@ filetype plugin indent on
 
 " This installs my standard set of COC plugs.
 function! _InstallCocPlugins()
-   " Note pyright worked great but does _not_ work with attr which Layer9 uses
-   " extensively so we now use pyls as a stand-alone (non COC extension).
-   " Consider moving back to coc-pyright.
-   :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh
+   :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh coc-pyright
+       \ coc-lists
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
@@ -87,6 +86,10 @@ autocmd ColorScheme *
 
 " Work with the sytem clipboard
 set clipboard=unnamedplus
+" Make ctrl-C and ctrl-v work as copy/paste
+vmap <c-c> "+y
+imap <c-v> <esc>"+pa
+nmap <c-v> "+p
 
 " neovim setup
 if has('nvim')
@@ -133,7 +136,7 @@ command! Ex :RangerCurrentFile
 " To use ag/Silver Searcher (https://github.com/ggreer/the_silver_searcher)
 " with the Ack plugin
 if executable('ag')
-  let g:ackprg = 'ag --nogroup --nocolor --column'
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 " Make backspace back up a tabstop. Especailly handy for editing Python
@@ -222,8 +225,9 @@ filetype plugin on
 " General commands/keyboard shortcuts for all files
 
 " FZF fuzzy finder
-map <leader>f :FZF<cr>
 command! -nargs=1 -complete=dir F :FZF <args>
+
+let g:agriculture#disable_smart_quoting = 1
 
 "commands for easily adding a blank line above or below the current line
 map <leader>o o<esc>
@@ -299,10 +303,14 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " GoTo code navigation.
-nmap <silent> <space>d <Plug>(coc-definition)
-nmap <silent> <space>y <Plug>(coc-type-definition)
-nmap <silent> <space>i <Plug>(coc-implementation)
-nmap <silent> <space>r <Plug>(coc-references)
+
+" Note that for some languages I also use an autocmd to map C-] to
+" coc-defintion.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> go :CocList outline<CR>
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -332,29 +340,23 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
 " Show errors/issues
 nmap <leader>e :CocList diagnostics<CR>
 nmap <leader>d :CocDiagnostics<CR>
 
-" File explorer
-:nnoremap <space>e :execute ":CocCommand explorer " . expand('%:p:h')<CR>
-:nnoremap <space>p :CocCommand explorer<CR>
-:nnoremap <space>b :CocCommand explorer --sources buffer+<CR>
-
+" Organize imports
+nmap <leader>i :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
 
 """
 " Markdown
 
 autocmd FileType markdown setlocal tw=120 spell
-autocmd FileType markdown map <leader>p :!macdown %:p<CR>
 let g:vim_markdown_folding_level = 6
 
 """"
 " Python
 autocmd FileType python map! <buffer> <leader>l :call flake8#Flake8()<CR>
+autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
 " rather than backing up all the way to the .git directory.
@@ -507,9 +509,8 @@ endif
 nmap ,e :CtrlP %:p:h<CR>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,m :e %:h/
 nmap ,p :CtrlP getcwd()<CR>
-nmap ,b :CtrlPBuffer<CR>
+nmap ,b :Buffers<CR>
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!
