@@ -185,6 +185,7 @@ set linebreak
 " ~/.vim/indent files and some is overridden below in the language specific
 " sections.
 set ts=3 sw=3 et        "tab stops and shift width == 3 and expand tabs to spaces
+set tw=120
 
 set showmatch           "show matching brackets
 "
@@ -367,6 +368,7 @@ autocmd FileType python let b:coc_root_patterns = ['pyrightconfig.json', '.git']
 " to be smart enough to ignore code and check only comments so we don't use
 " it.
 autocmd FileType python setlocal spell
+autocmd Filetype python setlocal expandtab tw=120
 
 " Find the project root by looking for a .mypy.ini file
 function! FindMypyRoot()
