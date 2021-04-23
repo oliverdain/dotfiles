@@ -11,6 +11,8 @@ alias lf="ls -F"
 alias ipy="ipython --matplotlib=qt5"
 alias lint="bazel test --test_tag_filters=lint"
 
+alias nq=nvim-qt
+
 # Defines a function that lets you search for a file walking "up" directories.
 # For example, if you call "find_up foo" this will start with pwd and, if pwd
 # contains a file named "foo" this will echo to stdout `pwd`. If `pwd` does

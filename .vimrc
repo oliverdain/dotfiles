@@ -89,7 +89,6 @@ set clipboard=unnamedplus
 " Make ctrl-C and ctrl-v work as copy/paste
 vmap <c-c> "+y
 imap <c-v> <esc>"+pa
-nmap <c-v> "+p
 
 " neovim setup
 if has('nvim')
