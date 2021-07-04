@@ -34,6 +34,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'tpope/vim-fugitive'
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
@@ -134,7 +135,7 @@ command! Ex :RangerCurrentFile
 
 " To use ag/Silver Searcher (https://github.com/ggreer/the_silver_searcher)
 " with the Ack plugin
-if executable('ag')
+if executable('rg')
   let g:ackprg = 'rg --vimgrep'
 endif
 
@@ -162,7 +163,7 @@ autocmd BufReadPost *
  \ endif
 
 " When we open a git commit message jump to the top and enter insert mode.
-au BufNewFile,BufRead *.git/COMMIT_EDITMSG :1 | :start
+au BufNewFile,BufRead */COMMIT_EDITMSG :1 | :start
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -345,7 +346,7 @@ nmap <leader>e :CocList diagnostics<CR>
 nmap <leader>d :CocDiagnostics<CR>
 
 " Organize imports
-nmap <leader>i :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+nmap <leader>i :call CocAction('runCommand', 'python.sortImports')<CR>
 
 """
 " Markdown
@@ -410,6 +411,28 @@ endfunction
 
 command! Mf :call CallMypyOnCurrentFile()
 command! Md :call CallMypyOnCurrentDir()
+
+function! CallPants(...)
+   let l:workspace_path = findfile('pants.toml', ';')
+   let l:workspace_dir = fnamemodify(l:workspace_path, ':p:h')
+   if a:0 == 0
+      let l:cmd = "./check.sh ::"
+   else
+      let l:cmd = "./pants " . join(a:000)
+   endif
+
+    " In order to get the quickfix list to work we have to tell vim that files
+    " in errors are relative to the repo root (but we don't want to run from
+    " there as we'd like to be able to build from pwd to build just that
+    " project). So we set up an errorformat above with a %D rule and then we
+    " echo "Entering ..." so that quickfix picks that up correctly.
+    execute ":AsyncRun -cwd=" . l:workspace_dir . " " . l:cmd
+endfunction
+
+command! -narg=* -complete=file P :call CallPants(<f-args>)
+
+" Have Pants run all code generators and put their output in dist/codegen
+command! Cg :call CallPants("export-codegen", "::")
 
 """"
 " C++

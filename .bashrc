@@ -46,6 +46,7 @@ source ~/bin/git-completion.bash
 alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name '*.cpp' \)"
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
+alias mpv_with_frame='mpv --ods-level=2 --osd-msg2="\${estimated-frame-number}"'
 alias act='source $(find_up venv)/venv/bin/activate'
 
 if command -v kubectl > /dev/null
@@ -95,3 +96,21 @@ then
     eval "$(pyenv init -)"
 fi
 # END ANSIBLE MANAGED for pyenv
+
+# add Pulumi to the PATH
+if [[ -e $HOME/.pulumi ]]
+then
+   export PATH=$PATH:$HOME/.pulumi/bin
+fi
+
+# Defines an rgf function. Called with one argument it used ripgrep to find files whose name match the given pattern.
+# Called with 2 arguments it searches for files whose name match the first argument in subdirectories of the 2nd
+# argument.
+rgf() {
+  if [ -z "$2" ]
+  then
+      rg --files | rg "$1"
+  else
+      rg --files "$2" | rg "$1"
+  fi
+}

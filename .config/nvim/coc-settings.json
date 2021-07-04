@@ -10,5 +10,22 @@
    },
 
    // Bash/sh
-   "sh.enable": true
+   "sh.enable": true,
+
+   "python.linting.flake8Enabled": true,
+   "python.linting.enabled": true,
+   "python.linting.mypy.enabled": true,
+
+   "languageserver": {
+		"terraform": {
+			"command": "terraform-ls",
+			"args": ["serve"],
+			"filetypes": [
+				"terraform",
+				"tf"
+			],
+			"initializationOptions": {},
+			"settings": {}
+		}
+	}
 }
