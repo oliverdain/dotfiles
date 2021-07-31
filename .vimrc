@@ -48,7 +48,7 @@ filetype plugin indent on
 " This installs my standard set of COC plugs.
 function! _InstallCocPlugins()
    :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh coc-pyright
-       \ coc-lists
+       \ coc-lists coc-html coc-tsserver
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
