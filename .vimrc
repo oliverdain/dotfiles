@@ -41,6 +41,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
+" CoC plugin for Telescope
+Plug 'fannheyward/telescope-coc.nvim'
+
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
@@ -57,6 +60,8 @@ function! _InstallCocPlugins()
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
+
+lua require('telescope').load_extension('coc')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
