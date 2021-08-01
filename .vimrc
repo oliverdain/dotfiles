@@ -36,13 +36,15 @@ Plug 'flazz/vim-colorschemes'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
 
-" for Telescope.nvim
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+if has('nvim-0.5')
+   " for Telescope.nvim
+   Plug 'nvim-lua/popup.nvim'
+   Plug 'nvim-lua/plenary.nvim'
+   Plug 'nvim-telescope/telescope.nvim'
 
-" CoC plugin for Telescope
-Plug 'fannheyward/telescope-coc.nvim'
+   " CoC plugin for Telescope
+   Plug 'fannheyward/telescope-coc.nvim'
+endif
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
@@ -60,8 +62,6 @@ function! _InstallCocPlugins()
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
-
-lua require('telescope').load_extension('coc')
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
@@ -540,18 +540,27 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-nmap ,e <cmd>Telescope find_files search_dirs=%:h<cr>
-" ,p opens a filesystem explorer from the current working director (p is short
-" for pwd)
-nmap ,p <cmd>Telescope find_files<cr>
-nmap ,b <cmd>Telescope buffers<cr>
-nmap ,g <cmd>Telescope live_grep<cr>
-" Like ,g but live-grep only files in the current directory or under.
-nmap <leader>flg <cmd>Telescope live_grep search_dirs=%:h<cr>
+if has('nvim-0.5')
+   lua require('telescope').load_extension('coc')
+   nmap ,e <cmd>Telescope find_files search_dirs=%:h<cr>
+   " ,p opens a filesystem explorer from the current working director (p is short
+   " for pwd)
+   nmap ,p <cmd>Telescope find_files<cr>
+   nmap ,b <cmd>Telescope buffers<cr>
+   nmap ,g <cmd>Telescope live_grep<cr>
+   " Like ,g but live-grep only files in the current directory or under.
+   nmap <leader>flg <cmd>Telescope live_grep search_dirs=%:h<cr>
 
-" man pages
-nmap ,m <cmd>Telescope man_pages<cr>
-nmap ,h <cmd>Telescope help_tags<cr>
+   " man pages
+   nmap ,m <cmd>Telescope man_pages<cr>
+   nmap ,h <cmd>Telescope help_tags<cr>
+else
+   nmap ,e :CtrlP %:p:h<CR>
+   " ,p opens a filesystem explorer from the current working director (p is short
+   " for pwd)
+   nmap ,p :CtrlP getcwd()<CR>
+   nmap ,b :Buffers<CR>
+endif
 
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
