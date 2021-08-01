@@ -549,7 +549,7 @@ if has('nvim-0.5')
    nmap ,b <cmd>Telescope buffers<cr>
    nmap ,g <cmd>Telescope live_grep<cr>
    " Like ,g but live-grep only files in the current directory or under.
-   nmap <leader>flg <cmd>Telescope live_grep search_dirs=%:h<cr>
+   nmap ,l <cmd>Telescope live_grep search_dirs=%:h<cr>
 
    " man pages
    nmap ,m <cmd>Telescope man_pages<cr>
