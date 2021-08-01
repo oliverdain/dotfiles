@@ -36,6 +36,11 @@ Plug 'flazz/vim-colorschemes'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
 
+" for Telescope.nvim
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
@@ -530,11 +535,19 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-nmap ,e :CtrlP %:p:h<CR>
+nmap ,e <cmd>Telescope find_files search_dirs=%:h<cr>
 " ,p opens a filesystem explorer from the current working director (p is short
 " for pwd)
-nmap ,p :CtrlP getcwd()<CR>
-nmap ,b :Buffers<CR>
+nmap ,p <cmd>Telescope find_files<cr>
+nmap ,b <cmd>Telescope buffers<cr>
+nmap ,g <cmd>Telescope live_grep<cr>
+" Like ,g but live-grep only files in the current directory or under.
+nmap <leader>flg <cmd>Telescope live_grep search_dirs=%:h<cr>
+
+" man pages
+nmap ,m <cmd>Telescope man_pages<cr>
+nmap ,h <cmd>Telescope help_tags<cr>
+
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!
