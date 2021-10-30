@@ -20,7 +20,8 @@ logging.basicConfig(level=logging.INFO)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser('$0',
-                                     description='$1')
+                                     description='$1',
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	
     return parser.parse_args()
 

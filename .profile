@@ -36,3 +36,8 @@ export PROMPT_COMMAND='history -a'
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 # END ANSIBLE MANAGED for pyenv
+
+export PATH="$HOME/.poetry/bin:$PATH"
+# BEGIN ANSIBLE MANAGED for golang
+export PATH=$PATH:/usr/local/go/bin
+# END ANSIBLE MANAGED for golang

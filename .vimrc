@@ -84,6 +84,8 @@ set autoread
 " And check for changed files if the cursor hasn't moved in 4 seconds
 au CursorHold * checktime 
 
+set mouse=a
+
 " Color scheme and underline spelling errors instead of highlighting them
 " Other colorscheme's I've liked: apprentice and jellybean
 set background=dark
@@ -550,6 +552,9 @@ if has('nvim-0.5')
    nmap ,g <cmd>Telescope live_grep<cr>
    " Like ,g but live-grep only files in the current directory or under.
    nmap ,l <cmd>Telescope live_grep search_dirs=%:h<cr>
+
+   nmap ,f <cmd>Telescope file_browser<cr>
+   nmap ,c <cmd>Telescope file_browser cwd=%:h<cr>
 
    " man pages
    nmap ,m <cmd>Telescope man_pages<cr>
