@@ -49,6 +49,19 @@ alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
 alias mpv_with_frame='mpv --ods-level=2 --osd-msg2="\${estimated-frame-number}"'
 alias act='source $(find_up venv)/venv/bin/activate'
 
+# A function to run pants test with output in --debug mode. Takes n arguments: the first is the target to test and the
+# rest go after the `-- -s` (e.g. so you can add a `-k some_test` to run a single test).
+pt() {
+   if [[ $# -lt 1 ]]
+   then
+      echo "You must provide a target. You may also provide other args to pass directly to pytest."
+      return 1
+   fi
+   targ=$1
+   shift
+   ./pants test --debug --test-output=all $targ -- -s "$@"
+}
+
 if command -v kubectl > /dev/null
 then
     source <(kubectl completion bash)

@@ -58,7 +58,7 @@ filetype plugin indent on
 " This installs my standard set of COC plugs.
 function! _InstallCocPlugins()
    :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh coc-pyright
-       \ coc-lists coc-html coc-tsserver
+       \ coc-lists coc-html coc-tsserver coc-go
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
@@ -445,6 +445,10 @@ command! -narg=* -complete=file P :call CallPants(<f-args>)
 
 " Have Pants run all code generators and put their output in dist/codegen
 command! Cg :call CallPants("export-codegen", "::")
+
+"""
+" golang
+autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
 
 """"
 " C++
