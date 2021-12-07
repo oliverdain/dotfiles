@@ -35,6 +35,7 @@ Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -366,6 +367,10 @@ nmap <leader>i :call CocAction('runCommand', 'python.sortImports')<CR>
 autocmd FileType markdown setlocal tw=120 spell
 let g:vim_markdown_folding_level = 6
 
+"""
+" Golang
+autocmd FileType go nmap <buffer> <leader>f :!goimports -w %<CR><CR>
+
 """"
 " Python
 autocmd FileType python map! <buffer> <leader>l :call flake8#Flake8()<CR>
@@ -448,7 +453,16 @@ command! Cg :call CallPants("export-codegen", "::")
 
 """
 " golang
-autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
+let g:go_fmt_command = "goimports"
+let g:go_imports_mode = "goimports"
+
+" disable vim-go :GoDef short cut (gd)
+" this is handled by CoC
+let g:go_def_mapping_enabled = 0
+
+" disable all linters as that is taken care of by coc.nvim
+let g:go_diagnostics_enabled = 0
+let g:go_metalinter_enabled = []
 
 """"
 " C++
