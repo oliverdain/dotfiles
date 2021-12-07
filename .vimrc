@@ -35,7 +35,6 @@ Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -453,16 +452,7 @@ command! Cg :call CallPants("export-codegen", "::")
 
 """
 " golang
-let g:go_fmt_command = "goimports"
-let g:go_imports_mode = "goimports"
-
-" disable vim-go :GoDef short cut (gd)
-" this is handled by CoC
-let g:go_def_mapping_enabled = 0
-
-" disable all linters as that is taken care of by coc.nvim
-let g:go_diagnostics_enabled = 0
-let g:go_metalinter_enabled = []
+autocmd Filetype go map <buffer> <leader>f :%!goimports<cr>
 
 """"
 " C++
