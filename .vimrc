@@ -366,10 +366,6 @@ nmap <leader>i :call CocAction('runCommand', 'python.sortImports')<CR>
 autocmd FileType markdown setlocal tw=120 spell
 let g:vim_markdown_folding_level = 6
 
-"""
-" Golang
-autocmd FileType go nmap <buffer> <leader>f :!goimports -w %<CR><CR>
-
 """"
 " Python
 autocmd FileType python map! <buffer> <leader>l :call flake8#Flake8()<CR>
@@ -453,6 +449,8 @@ command! Cg :call CallPants("export-codegen", "::")
 """
 " golang
 autocmd Filetype go map <buffer> <leader>f :%!goimports<cr>
+autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
+autocmd Filetype go setlocal spell
 
 """"
 " C++
