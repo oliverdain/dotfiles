@@ -1,0 +1,23 @@
+snippet log "Sets up the standard logging file"
+package ${1}
+
+import "companionlabs.ai/pkg/logging"
+
+var log = logging.New("${2}")
+endsnippet
+
+snippet ie "Sets up the standard 'if err != nil' block"
+if err != nil {
+	$1
+}
+endsnippet
+
+snippet asrt "Sets up the testify assert object"
+asrt := assert.New(t)
+
+endsnippet
+
+snippet req "Sets up the testify require object"
+req := require.New(t)
+
+endsnippet
