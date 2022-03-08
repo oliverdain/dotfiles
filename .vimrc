@@ -455,6 +455,21 @@ autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
 autocmd Filetype go setlocal spell
 autocmd Filetype go setlocal noexpandtab tw=120
 
+function! CallGo(...)
+   let l:workspace_path = findfile('Taskfile.yml', ';')
+   let l:workspace_dir = fnamemodify(l:workspace_path, ':p:h')
+   if a:0 == 0
+      let l:cmd = "go build ./..."
+   else
+      let l:cmd = "go " . join(a:000)
+   endif
+
+    " Runs via Python wrapper that sets env variables
+    execute ":AsyncRun -cwd=" . l:workspace_dir . " python3 ./build-support/cli.py run -f compile -- " . l:cmd
+endfunction
+
+command! -narg=* -complete=file G :call CallGo(<f-args>)
+
 """"
 " C++
 " Searches up from the current directory to the directory with a build.gradle
