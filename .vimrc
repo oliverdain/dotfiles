@@ -81,8 +81,9 @@ endif
 
 " Autoreload files if they were changed externally
 set autoread
-" And check for changed files if the cursor hasn't moved in 4 seconds
-au CursorHold * checktime 
+" And check for changed files if the cursor hasn't moved for a bit, if a buffer gains focus, etc.
+au CursorHold,CursorHoldI * checktime 
+au FocusGained,BufEnter * :checktime
 
 set mouse=a
 
@@ -448,9 +449,11 @@ command! Cg :call CallPants("export-codegen", "::")
 
 """
 " golang
-autocmd Filetype go map <buffer> <leader>f :%!goimports<cr>
+" the m` and `` marks and then jumps back to whatever our location was before we run !goimports
+autocmd Filetype go map <buffer> <leader>f m`:%!goimports<cr>``
 autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
 autocmd Filetype go setlocal spell
+autocmd Filetype go setlocal noexpandtab tw=120
 
 """"
 " C++
