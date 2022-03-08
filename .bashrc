@@ -127,3 +127,9 @@ rgf() {
       rg --files "$2" | rg "$1"
   fi
 }
+
+# Let's me have local config that's not checked into yadm for machine-specific stuff.
+if [[ -e ~/.local_bashrc ]]
+then
+   . ~/.local_bashrc
+fi
