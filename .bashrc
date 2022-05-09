@@ -105,9 +105,9 @@ fi
 # exec 2>&3 3>&-
 # BEGIN ANSIBLE MANAGED for pyenv
 if command -v pyenv 1>/dev/null 2>&1
-then
-    eval "$(pyenv init -)"
-fi
+    then
+        eval "$(pyenv init -)"
+    fi
 # END ANSIBLE MANAGED for pyenv
 
 # add Pulumi to the PATH
@@ -132,4 +132,9 @@ rgf() {
 if [[ -e ~/.local_bashrc ]]
 then
    . ~/.local_bashrc
+fi
+
+if [[ -e ~/.bash_kube ]]
+then
+   . ~/.bash_kube
 fi

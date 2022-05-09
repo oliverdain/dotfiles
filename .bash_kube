@@ -1,0 +1,17 @@
+# misc. aliases an functions to make it easier to work with kubectl
+
+alias k=kubectl
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias kl='kubectl logs'
+
+kns() {
+   if [[ $# -eq 0 ]]
+   then
+      kubectl get namespaces
+      echo
+      echo "Current: " $(kubectl config view --minify -o jsonpath='{..namespace}')
+   else
+      kubectl config set-context --current --namespace=$1
+   fi
+}

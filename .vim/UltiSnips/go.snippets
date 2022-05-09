@@ -4,12 +4,23 @@ package ${1}
 import "companionlabs.ai/pkg/logging"
 
 var log = logging.New("${2}")
+var slog = log.Sugar()
 endsnippet
 
 snippet ie "Sets up the standard 'if err != nil' block"
 if err != nil {
 	$1
 }
+endsnippet
+
+snippet ier "Sets up the standard 'if err != nil' block where we return err"
+if err != nil {
+	return err
+}
+endsnippet
+
+snippet gei "The import for go-errors"
+	"github.com/go-errors/errors"
 endsnippet
 
 snippet asrt "Sets up the testify assert object"
@@ -20,4 +31,55 @@ endsnippet
 snippet req "Sets up the testify require object"
 req := require.New(t)
 
+endsnippet
+
+snippet main "The standard main function for our CLI tools."
+package main
+
+import "companionlabs.ai/pkg/logging"
+
+func main() {
+	defer logging.Cleanup()
+	cmd := RootCommand()
+	if err := cmd.Execute(); err != nil {
+		panic(err)
+	}
+}
+endsnippet
+
+snippet root "The standard root command for our CLI tools."
+package main
+
+import "github.com/spf13/cobra"
+
+// RootCommand sets up the root command and any sub-commands.
+func RootCommand() *cobra.Command {
+	rootCmd := &cobra.Command{
+		Short: "$1",
+		Long:  "$2",
+	}
+
+	return rootCmd
+}
+endsnippet
+
+snippet cmd "The standard start of a command for a CLI tool."
+package main
+
+import "github.com/spf13/cobra"
+
+func $1() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "$2",
+		Short: "$3",
+		Args:  $4,
+	}
+
+	$0
+
+	cmd.Run = func(cmd *cobra.Command, args []string) {
+	}
+
+	return cmd
+}
 endsnippet

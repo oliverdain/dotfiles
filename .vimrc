@@ -468,7 +468,8 @@ function! CallGo(...)
     execute ":AsyncRun -cwd=" . l:workspace_dir . " python3 ./build-support/cli.py run -f compile -- " . l:cmd
 endfunction
 
-command! -narg=* -complete=file G :call CallGo(<f-args>)
+" We don't make :G as that's the standard for vim-fuguitive for git things.
+command! -narg=* -complete=file O :call CallGo(<f-args>)
 
 """"
 " C++
