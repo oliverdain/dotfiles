@@ -27,6 +27,9 @@ then
     source ~/.bash_profile_local
 fi
 
+# For pipx
+export PATH=$PATH:$HOME/.local/bin
+
 # Flush command history to ~/.bash_history on each new command prompt
 # so that multiple terms can see each other's history and history isn't
 # lost if I kill a shell instead of logging out.

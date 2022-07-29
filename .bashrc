@@ -6,6 +6,8 @@
 # exec 3>&2 2>/tmp/bashstart.$$.log
 # set -x
 
+shopt -s globstar
+
 alias ll="ls -lh"
 alias lf="ls -F"
 alias ipy="ipython --matplotlib=qt5"

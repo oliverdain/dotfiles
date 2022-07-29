@@ -3,7 +3,7 @@ package ${1}
 
 import "companionlabs.ai/pkg/logging"
 
-var log = logging.New("${2}")
+var log = logging.New("$1")
 var slog = log.Sugar()
 endsnippet
 
@@ -82,4 +82,8 @@ func $1() *cobra.Command {
 
 	return cmd
 }
+endsnippet
+
+snippet enumer "Add the go:generate comment for enumer."
+//go:generate enumer -text -type=$1 -linecomment
 endsnippet

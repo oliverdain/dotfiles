@@ -20,7 +20,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'whiteinge/diffconflicts'
 Plug 'kien/ctrlp.vim'
 Plug 'SirVer/ultisnips'
-Plug 'nvie/vim-flake8'
 Plug 'mileszs/ack.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -35,6 +34,8 @@ Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -369,7 +370,6 @@ let g:vim_markdown_folding_level = 6
 
 """"
 " Python
-autocmd FileType python map! <buffer> <leader>l :call flake8#Flake8()<CR>
 autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
