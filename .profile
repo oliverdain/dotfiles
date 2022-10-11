@@ -16,9 +16,9 @@ fi
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-if [[ -e ~/.bashrc_os_specific ]]
+if [[ -e ~/.bashrc ]]
 then
-    source ~/.bashrc_os_specific
+    source ~/.bashrc
 fi
 
 # For config that's local to a machine and not otherwise shared (e.g. work specific setttings)

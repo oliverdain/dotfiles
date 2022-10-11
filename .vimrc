@@ -47,6 +47,8 @@ if has('nvim-0.5')
 
    " CoC plugin for Telescope
    Plug 'fannheyward/telescope-coc.nvim'
+   " Recently the file-browser plugin to telescope was moved to its own package 
+   Plug 'nvim-telescope/telescope-file-browser.nvim'
 endif
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -582,6 +584,7 @@ endif
 
 if has('nvim-0.5')
    lua require('telescope').load_extension('coc')
+   lua require('telescope').load_extension('file_browser')
    nmap ,e <cmd>Telescope find_files search_dirs=%:h<cr>
    " ,p opens a filesystem explorer from the current working director (p is short
    " for pwd)
