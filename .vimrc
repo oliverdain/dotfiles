@@ -36,6 +36,8 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
+" For Hashicorp syntax highlighting (e.g. Packer)
+Plug 'jvirtanen/vim-hcl', { 'branch': 'main' }
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -326,6 +328,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> go :CocList outline<CR>
+nmap <silent> gs :CocList symbols<CR>
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -367,6 +370,9 @@ nmap <leader>i :call CocAction('runCommand', 'python.sortImports')<CR>
 
 autocmd FileType markdown setlocal tw=120 spell
 let g:vim_markdown_folding_level = 6
+" Per https://github.com/preservim/vim-markdown/issues/548 the vim_markdown_folding_level is ignored so I did this
+" instead as a temporary workaround.
+autocmd FileType markdown setlocal foldlevel=6
 
 """"
 " Python
@@ -455,9 +461,14 @@ autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
 autocmd Filetype go setlocal spell
 autocmd Filetype go setlocal noexpandtab tw=120
 
-function! CallGo(...)
-   let l:workspace_path = findfile('Taskfile.yml', ';')
+function! GetGoDir()
+   let l:workspace_path = findfile('dodo.py', ';')
    let l:workspace_dir = fnamemodify(l:workspace_path, ':p:h')
+   return l:workspace_dir . "/go"
+endfunction
+
+function! CallGo(...)
+   let l:workspace_dir = GetGoDir()
    if a:0 == 0
       let l:cmd = "go build ./..."
    else
@@ -465,11 +476,13 @@ function! CallGo(...)
    endif
 
     " Runs via Python wrapper that sets env variables
-    execute ":AsyncRun -cwd=" . l:workspace_dir . " python3 ./build-support/cli.py run -f compile -- " . l:cmd
+    execute ":AsyncRun -cwd=" . l:workspace_dir . " python3 ./build-support/libs.py run -f compile -- " . l:cmd
 endfunction
 
 " We don't make :G as that's the standard for vim-fuguitive for git things.
 command! -narg=* -complete=file O :call CallGo(<f-args>)
+
+command! -narg=* -complete=file D :AsyncRun doit <args>
 
 """"
 " C++
