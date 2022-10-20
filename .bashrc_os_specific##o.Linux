@@ -6,4 +6,4 @@ unset color_prompt force_color_prompt
 
 source /etc/bash_completion
 
-export EDITOR=/usr/bin/nvim
+export EDITOR=/usr/local/bin/nvim

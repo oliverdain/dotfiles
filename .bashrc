@@ -140,3 +140,13 @@ if [[ -e ~/.bash_kube ]]
 then
    . ~/.bash_kube
 fi
+# BEGIN ANSIBLE MANAGED for doit
+# Enable running doit anywhere in the main repo.
+export DOIT_SEEK_FILE=1
+# Enable shell completion for doit commands/tasks.
+eval "$(doit tabcompletion)"
+# END ANSIBLE MANAGED for doit
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

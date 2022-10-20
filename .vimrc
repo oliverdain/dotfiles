@@ -298,14 +298,21 @@ map <leader>s {jV}k :!sort<cr>
 set signcolumn=yes
 
 " Use tabs for completions
-function! s:check_back_space() abort
+function! CheckBackSpace() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" The commented out map is deprecated and the one below now works. If the new one isn't working try a PlugUpdate.
+" Keeping the old one here for a while as the new version of CoC requires an update to nvim itself which might be a PITA
+" in some instances.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackSpace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
@@ -595,7 +602,7 @@ if has('nvim-0.5')
    nmap ,l <cmd>Telescope live_grep search_dirs=%:h<cr>
 
    nmap ,f <cmd>Telescope file_browser<cr>
-   nmap ,c <cmd>Telescope file_browser cwd=%:h<cr>
+   nmap ,c <cmd>Telescope file_browser path=%:p:h<cr>
 
    " man pages
    nmap ,m <cmd>Telescope man_pages<cr>

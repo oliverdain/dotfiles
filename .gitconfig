@@ -14,6 +14,8 @@
    cleanup = "!git branch --merged | grep  -v '^[*+]\\|master\\|develop\\|coral_board' | xargs -n 1 git branch -d"
    ca = !git add -A && git commit
    pnc = !git pull && git cleanup
+   # If another worktree has master (or $1) checked out, move that woktree to a new branch called parked-<datetime>
+   parkall = "!f() { wt=$(git worktree list | grep ${1:-master} | cut -d' ' -f1); ts=$(date +%s); ( cd $wt && git checkout -b parked-$ts ); }; f"
 
 [diff]
    tool = vimdiff
@@ -35,5 +37,6 @@
 	process = git-lfs filter-process
 [core]
 	excludesfile = /home/oliver/.gitignore_global
+	editor = nvim
 [init]
 	defaultBranch = master

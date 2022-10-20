@@ -45,3 +45,6 @@ export PATH="$HOME/.poetry/bin:$PATH"
 # BEGIN ANSIBLE MANAGED for golang
 export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 # END ANSIBLE MANAGED for golang
+# BEGIN ANSIBLE MANAGED for pipx
+export PATH=$PATH:$HOME/.local/bin
+# END ANSIBLE MANAGED for pipx
