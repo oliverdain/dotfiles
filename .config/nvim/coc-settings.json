@@ -18,6 +18,8 @@
    ],
    "python.linting.enabled": true,
    "python.linting.mypy.enabled": true,
+   "python.analysis.stubPath": "typings",
+   "pyright.organizeimports.provider": "isort",
    "pyright.enable": true,
    // Don't show variable types in the editor to the right. I found it a little distracting.
    "pyright.inlayHints.variableTypes": false,

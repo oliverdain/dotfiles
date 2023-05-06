@@ -38,6 +38,8 @@ Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 " For Hashicorp syntax highlighting (e.g. Packer)
 Plug 'jvirtanen/vim-hcl', { 'branch': 'main' }
+" ChatGPT plugin
+Plug 'madox2/vim-ai'
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -469,6 +471,8 @@ autocmd Filetype go map <buffer> <leader>f m`:%!goimports<cr>``
 autocmd FileType go nmap <buffer> <C-]> <Plug>(coc-definition)
 autocmd Filetype go setlocal spell
 autocmd Filetype go setlocal noexpandtab tw=120
+" set tabs size to 4 to match our linter (e.g. line length is 120 assuming tab stops of 4)
+autocmd Filetype go setlocal ts=4 sw=4
 
 function! GetGoDir()
    let l:workspace_path = findfile('dodo.py', ';')

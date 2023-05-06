@@ -37,3 +37,20 @@ endsnippet
 snippet log "Add a logger"
 log = logging.getLogger(__name__)
 endsnippet
+
+snippet cmd "Add a sub-command to a CLI"
+import argparse
+
+from type_helpers.argparse import SubParser
+
+
+def add_$1_args(main_subs: SubParser) -> None:
+    p = main_subs.add_parser('$2', help='$3',
+                             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    p.set_defaults(func=$4)
+
+
+def $4(args: argparse.Namespace) -> None:
+    pass
+endsnippet
