@@ -441,6 +441,9 @@ endfunction
 
 command! Mf :call CallMypyOnCurrentFile()
 command! Md :call CallMypyOnCurrentDir()
+" Defines a command to sort everything in square braces alphabetically. Most often used to sort the __all__ list in an
+" __init__.py file.
+command! Sa normal! vi[:!sort<CR>
 
 function! CallPants(...)
    let l:workspace_path = findfile('pants.toml', ';')

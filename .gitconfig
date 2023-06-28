@@ -15,7 +15,7 @@
    ca = !git add -A && git commit
    pnc = !git pull && git cleanup
    # If another worktree has master (or $1) checked out, move that woktree to a new branch called parked-<datetime>
-   parkall = "!( cd $(git worktree list | grep master | cut -d' ' -f1) && git checkout -b parked-$(date +%s) )"
+   parkall = !~/bin/git_park.sh
 
 [diff]
    tool = vimdiff

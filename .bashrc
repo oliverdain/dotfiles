@@ -11,7 +11,6 @@ shopt -s globstar
 alias ll="ls -lh"
 alias lf="ls -F"
 alias ipy="ipython --matplotlib=qt5"
-alias lint="bazel test --test_tag_filters=lint"
 
 alias nq=nvim-qt
 
