@@ -35,16 +35,13 @@ export PATH=$PATH:$HOME/.local/bin
 # lost if I kill a shell instead of logging out.
 export PROMPT_COMMAND='history -a'
 
-# BEGIN ANSIBLE MANAGED for pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-# END ANSIBLE MANAGED for pyenv
 
 export PATH="$HOME/.poetry/bin:$PATH"
-# BEGIN ANSIBLE MANAGED for golang
-export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-# END ANSIBLE MANAGED for golang
 # BEGIN ANSIBLE MANAGED for pipx
 export PATH=$PATH:$HOME/.local/bin
 # END ANSIBLE MANAGED for pipx
+
+if [[ -e ~/.profile.companion ]]
+then
+   source ~/.profile.companion
+fi
