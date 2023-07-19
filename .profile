@@ -2,29 +2,22 @@ export PATH="/home/oliver/bin:$PATH"
 
 export HISTFILESIZE=10000
 export HISTSIZE=10000
-shopt -s histappend
 
-# If the shell supports the globstar option (older bash shells do not including the
-# one on OSX) then set it so that "**" match all files and zero or more directories
-# and subdirectories.
-if shopt | grep -q globstar
+if [ -e ~/.bashrc ]
 then
-   shopt -sq globstar
-fi
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-if [[ -e ~/.bashrc ]]
-then
-    source ~/.bashrc
+   # Login shells on Debian use dash to source .xsessionrc which, in turn, sources .profile so we can't use any
+   # bash-specific stuff here. Also we check $PS1 so we don't bother running .bashrc if it's not an interactive
+   # login.
+   if [ -n $BASH -a -n $PS1 ]
+   then
+       . ~/.bashrc
+   fi
 fi
 
 # For config that's local to a machine and not otherwise shared (e.g. work specific setttings)
-if [[ -e ~/.bash_profile_local ]]
+if [ -e ~/.bash_profile_local ]
 then
-    source ~/.bash_profile_local
+    . ~/.bash_profile_local
 fi
 
 # For pipx
@@ -36,12 +29,7 @@ export PATH=$PATH:$HOME/.local/bin
 export PROMPT_COMMAND='history -a'
 
 
-export PATH="$HOME/.poetry/bin:$PATH"
-# BEGIN ANSIBLE MANAGED for pipx
-export PATH=$PATH:$HOME/.local/bin
-# END ANSIBLE MANAGED for pipx
-
-if [[ -e ~/.profile.companion ]]
+if [ -e ~/.profile.companion ]
 then
-   source ~/.profile.companion
+   . ~/.profile.companion
 fi
