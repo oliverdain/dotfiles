@@ -1,3 +1,10 @@
+global !p
+def year():
+	import datetime
+	return datetime.datetime.now().year
+endglobal
+
+
 snippet param "The Parameters in a method comment block"
 Parameters
 ----------
@@ -56,6 +63,7 @@ def $4(args: argparse.Namespace) -> None:
 endsnippet
 
 snippet nfc "Add copyright notice to a new file"
-# Copyright 2023, Companion Labs, Inc. All rights reserved.
+# Copyright `!p snip.rv = year()`, Companion Labs, Inc. All rights reserved.
 
+$1
 endsnippet
