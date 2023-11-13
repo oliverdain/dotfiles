@@ -389,6 +389,13 @@ autocmd FileType markdown setlocal foldlevel=6
 " Python
 autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 
+" Automatically add the copyright notice to new files.
+" NOTE: this doesn't work. It get a mysterious error: "E486 pattern not found: python"
+" E486 pattern not found is the error you get when you do a search/replace and there's no match but I can't figure out
+" why UltiSnips would be giving me this error. Maybe I need to save the file first?? Left commented out so I can figure
+" out that bit later.
+" autocmd BufNewFile *.py execute "normal nfc\<C-j>"
+
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
 " rather than backing up all the way to the .git directory.
 autocmd FileType python let b:coc_root_patterns = ['pyrightconfig.json', '.git']
