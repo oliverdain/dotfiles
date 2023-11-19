@@ -1,0 +1,67 @@
+- name: Install Vivaldi
+  apt:
+    # Note: This is very likely to get out of date as it includes the version number
+    # but they don't seem to have just a "stable" link.
+    #
+    # I started a thread to request this here:
+    # https://forum.vivaldi.net/topic/92639/stable-url-for-latest-stable
+    deb: https://downloads.vivaldi.com/stable/vivaldi-stable_6.4.3160.44-1_amd64.deb
+  when: >
+    "vivaldi-stable" not in ansible_facts.packages
+  become: true
+# We'd like to install neovim-qt via AppImage or deb but they don't currently make it easy to find the AppImage (see
+# https://github.com/equalsraf/neovim-qt/issues/) and the version available via apt-get is very out of date and has a
+# dependency on an equally out of date neovim which is hard to not install (e.g. see
+# https://wiki.debian.org/Packaging/HackingDependencies for example). So here we actually download and build the damn
+# thing.
+- name: See if neovim-qt is installed
+  stat:
+    path: /usr/local/bin/nvim-qt
+  register: nvim_qt_stat
+- name: Install neovim-qt
+  block:
+    - name: Clone the repo
+      git:
+        repo: https://github.com/equalsraf/neovim-qt.git
+        # Version to pull by release tag
+        version: v0.2.18
+        dest: /tmp/neovim-qt
+    - name: Install the build dependencies
+      apt:
+        cache_valid_time: 600
+        pkg:
+          - cmake
+          - build-essential
+          - qt5-qmake
+          - qt5-qmake-bin
+          - qtbase5-dev
+          - qtbase5-dev-tools
+          - libqt5svg5-dev
+          - qtchooser
+          - libqt5concurrent5
+          - libqt5core5a
+          - libqt5dbus5
+          - libqt5gui5
+          - libqt5network5
+          - libqt5widgets5
+          - libqt5xml5
+      become: true
+    - name: create a build dir
+      file:
+        path: /tmp/neovim-qt/build
+        state: directory
+    - name: Create a Makefile
+      command: cmake -DCMAKE_BUILD_TYPE=Release ..
+      args:
+        chdir: /tmp/neovim-qt/build
+    - name: Compile it
+      command: make -j4
+      args:
+        chdir: /tmp/neovim-qt/build
+    - name: Install it
+      command: make install
+      args:
+        chdir: /tmp/neovim-qt/build
+      become: true
+  when: not nvim_qt_stat.stat.exists
+

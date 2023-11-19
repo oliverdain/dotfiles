@@ -1,0 +1,31 @@
+- name: install some standard packages
+  apt:
+     cache_valid_time: 600
+     pkg:
+       - ripgrep
+       - fd-find
+       - ranger
+       - htop
+  become: true
+- name: symlink fdfind to fd
+  file:
+    src: /usr/bin/fdfind
+    dest: /usr/bin/fd
+    state: link
+  become: true
+- name: See if neovim is installed
+  stat:
+     path: "{{ nvim_path }}"
+  register: nvim_stat
+- name: Install neovim
+  block:
+    - name: Download the neovim appimg
+      get_url:
+        url: https://github.com/neovim/neovim/releases/download/v0.9.4/nvim.appimage
+        dest: "{{ nvim_path }}"
+    - name: Make nvim executable
+      file:
+        path: "{{ nvim_path }}"
+        state: touch
+        mode: u+x
+  when: not nvim_stat.stat.exists

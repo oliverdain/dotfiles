@@ -1,0 +1,1 @@
+nvim_path: "{{ ansible_env.HOME }}/bin/nvim"
