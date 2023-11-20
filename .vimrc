@@ -405,8 +405,8 @@ if has('nvim-0.5')
 "       mappings = {
 "         i = {
 "           ["<S-CR>"] = function(prompt_bufnr)
-"             fb_actions.create_from_prompt(prompt_bufnr)
-"             vim.cmd([[normal infc\<C-j>]]) -- your custom behavior
+"             require("telescope._extensions.file_browser.actions").create_from_prompt(prompt_bufnr)
+"             vim.cmd(vim.api.nvim_replace_termcodes('normal infc<C-j>', true, true, true)) 
 "           end,
 "         },
 "       },

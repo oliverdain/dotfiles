@@ -8,6 +8,7 @@
        - htop
        - python3-pynvim
        - xclip
+       - httpie
   become: true
 - name: symlink fdfind to fd
   file:
@@ -23,7 +24,7 @@
   block:
     - name: Download the neovim appimg
       get_url:
-        url: https://github.com/neovim/neovim/releases/download/v0.9.4/nvim.appimage
+        url: "https://github.com/neovim/neovim/releases/download/{{ nvim_version}}/nvim.appimage"
         dest: "{{ nvim_path }}"
     - name: Make nvim executable
       file:
@@ -31,3 +32,15 @@
         state: touch
         mode: u+x
   when: not nvim_stat.stat.exists
+- name: Install lakefs CLI
+  block:
+    - name: Download lakefs tarball
+      get_url:
+        url: "https://github.com/treeverse/lakeFS/releases/download/v{{ lakefs_version }}/lakeFS_{{ lakefs_version }}_Linux_x86_64.tar.gz"
+        dest: /tmp/lakefs.tar.gz
+    - name: Extract lakefs cli
+      unarchive:
+        src: /tmp/lakefs.tar.gz
+        include: lakectl
+        dest: ~/bin
+
