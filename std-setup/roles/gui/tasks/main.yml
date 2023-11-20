@@ -9,6 +9,12 @@
   when: >
     "vivaldi-stable" not in ansible_facts.packages
   become: true
+- name: Install standard GUI apps
+  apt:
+    cache_valid_time: 600
+    pkg:
+      - lyx
+  become: true
 # We'd like to install neovim-qt via AppImage or deb but they don't currently make it easy to find the AppImage (see
 # https://github.com/equalsraf/neovim-qt/issues/) and the version available via apt-get is very out of date and has a
 # dependency on an equally out of date neovim which is hard to not install (e.g. see
@@ -64,4 +70,16 @@
         chdir: /tmp/neovim-qt/build
       become: true
   when: not nvim_qt_stat.stat.exists
-
+- name: See if Zotero is installed
+  find:
+    path: ~/Applications/
+    patterns: "Zotero*.appimage"
+  register: zotero_find
+- name: Install Zotero
+  block:
+    - name: Generate a Zotero appimage
+      # The argument here is the version to build.
+      script: zotero-appimg.sh 6.0.26
+    - name: Integrate the appimage
+      command: ail-cli integrate ~/Applications/Zotero.appimage
+  when: zotero_find.matched == 0
