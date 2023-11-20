@@ -6,6 +6,8 @@
        - fd-find
        - ranger
        - htop
+       - python3-pynvim
+       - xclip
   become: true
 - name: symlink fdfind to fd
   file:

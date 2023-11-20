@@ -392,6 +392,29 @@ autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 " Automatically add the copyright notice to new files. This enters insert mode, types "nfc" which is my UltiSnips
 " snippet for "new file comment" and then hits Ctrl-j to expand it.
 autocmd BufNewFile *.py execute "normal infc\<C-j>"
+" Essentially the same as the above but for the case where we create the new file via Telescope's file browser (type in
+" a non-existent file and hit ctrl-enter). That first creates the file and then opens it so the above BufNewFile doesn't
+" trigger.
+"
+" This isn't quite working though so I've got it commented out until I can figure out 'sup.
+if has('nvim-0.5')
+" lua <<LUA
+" require("telescope").setup({
+"   extensions = {
+"     file_browser = {
+"       mappings = {
+"         i = {
+"           ["<S-CR>"] = function(prompt_bufnr)
+"             fb_actions.create_from_prompt(prompt_bufnr)
+"             vim.cmd([[normal infc\<C-j>]]) -- your custom behavior
+"           end,
+"         },
+"       },
+"     },
+"   },
+" })
+" LUA
+endif
 
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
 " rather than backing up all the way to the .git directory.
