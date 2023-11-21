@@ -28,7 +28,7 @@ Plug 'jesseleite/vim-agriculture'
 Plug 'francoiscabrol/ranger.vim'
 " Required by ranger.vim
 Plug 'rbgrouleff/bclose.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 " A collection of color schemes
 Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
@@ -392,29 +392,6 @@ autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 " Automatically add the copyright notice to new files. This enters insert mode, types "nfc" which is my UltiSnips
 " snippet for "new file comment" and then hits Ctrl-j to expand it.
 autocmd BufNewFile *.py execute "normal infc\<C-j>"
-" Essentially the same as the above but for the case where we create the new file via Telescope's file browser (type in
-" a non-existent file and hit ctrl-enter). That first creates the file and then opens it so the above BufNewFile doesn't
-" trigger.
-"
-" This isn't quite working though so I've got it commented out until I can figure out 'sup.
-if has('nvim-0.5')
-" lua <<LUA
-" require("telescope").setup({
-"   extensions = {
-"     file_browser = {
-"       mappings = {
-"         i = {
-"           ["<S-CR>"] = function(prompt_bufnr)
-"             require("telescope._extensions.file_browser.actions").create_from_prompt(prompt_bufnr)
-"             vim.cmd(vim.api.nvim_replace_termcodes('normal infc<C-j>', true, true, true)) 
-"           end,
-"         },
-"       },
-"     },
-"   },
-" })
-" LUA
-endif
 
 " Let coc-pyright define the root by the presence of a pyrightconfig.json file
 " rather than backing up all the way to the .git directory.
@@ -641,6 +618,29 @@ if has('nvim-0.5')
    " man pages
    nmap ,m <cmd>Telescope man_pages<cr>
    nmap ,h <cmd>Telescope help_tags<cr>
+
+" If you create a new file by typing a non-existent filename in the telescope file browser it first creates the file and
+" then opens it so BufNewFile events aren't triggered. But that breaks some automatations I have (e.g. auto-insert a
+" copyright UltiSnips) so here I **try** to manually trigger BufNewFile for the file but, for some reason, it doesn't
+" quite work.
+"
+" TOOD: FIX!
+lua <<LUA
+require("telescope").setup({
+  extensions = {
+    file_browser = {
+      mappings = {
+        i = {
+          ["<S-CR>"] = function(prompt_bufnr)
+            require("telescope._extensions.file_browser.actions").create_from_prompt(prompt_bufnr)
+            vim.cmd('doautocmd "BufNewFile"')
+          end,
+        },
+      },
+    },
+  },
+})
+LUA
 else
    nmap ,e :CtrlP %:p:h<CR>
    " ,p opens a filesystem explorer from the current working director (p is short
