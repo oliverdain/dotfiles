@@ -10,6 +10,7 @@
        - xclip
        - httpie
        - tldr
+       - tig
   become: true
 - name: symlink fdfind to fd
   file:

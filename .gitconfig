@@ -11,7 +11,7 @@
    pco = "!git push -u origin $(git branch | grep '^\\*' | cut -c 3-)"
    # Delete all branches that have been merged into the current HEAD *except* don't delete branches
    # named master or develop or the current branch.
-   cleanup = "!git branch --merged | grep  -v '^[*+]\\|master\\|develop\\|coral_board' | xargs -n 1 git branch -d"
+   cleanup = "!git branch --merged | grep -ve '^[*+ ]\\+main\\|master\\|develop' | xargs -r -n 1 git branch -d"
    ca = !git add -A && git commit
    pnc = !git pull && git cleanup
    # If another worktree has master (or $1) checked out, move that woktree to a new branch called parked-<datetime>
