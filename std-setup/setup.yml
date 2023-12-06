@@ -3,6 +3,7 @@
   vars:
   roles:
     - role: common
+      tags: [ gui, cli ]
     - role: gui
       tags: [ gui ]
     - role: cli

@@ -9,11 +9,29 @@
   when: >
     "vivaldi-stable" not in ansible_facts.packages
   become: true
+- name: remove legacy Signal signing key
+  apt_key:
+    url: https://updates.signal.org/desktop/apt/keys.asc
+    state: absent
+  become: true
+- name: add Signal apt repo and signing key
+  deb822_repository:
+    name: signal
+    types: deb
+    uris: https://updates.signal.org/desktop/apt
+    suites: xenial
+    components:
+      - main
+    # architectures: amd64
+    signed_by: https://updates.signal.org/desktop/apt/keys.asc
+    state: present
+  become: true
 - name: Install standard GUI apps
   apt:
     cache_valid_time: 600
     pkg:
       - lyx
+      - signal-desktop
   become: true
 # We'd like to install neovim-qt via AppImage or deb but they don't currently make it easy to find the AppImage (see
 # https://github.com/equalsraf/neovim-qt/issues/) and the version available via apt-get is very out of date and has a
