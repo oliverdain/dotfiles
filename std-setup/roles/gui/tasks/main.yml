@@ -22,8 +22,16 @@
     suites: xenial
     components:
       - main
-    # architectures: amd64
     signed_by: https://updates.signal.org/desktop/apt/keys.asc
+    state: present
+  become: true
+- name: Add the Spotify apt repo
+  deb822_repository:
+    name: spotify
+    uris: http://repository.spotify.com
+    suites: stable
+    components: [ non-free ]
+    signed_by: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
     state: present
   become: true
 - name: Install standard GUI apps
@@ -32,6 +40,7 @@
     pkg:
       - lyx
       - signal-desktop
+      - spotify-client
   become: true
 # We'd like to install neovim-qt via AppImage or deb but they don't currently make it easy to find the AppImage (see
 # https://github.com/equalsraf/neovim-qt/issues/) and the version available via apt-get is very out of date and has a
