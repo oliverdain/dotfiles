@@ -503,6 +503,7 @@ endfunction
 command! -narg=* -complete=file O :call CallGo(<f-args>)
 
 command! -narg=* -complete=file D :AsyncRun doit <args>
+command! -narg=* -complete=file T :AsyncRun task <args>
 
 """"
 " C++

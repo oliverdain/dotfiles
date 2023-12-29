@@ -1,7 +1,7 @@
 snippet log "Sets up the standard logging file"
 package ${1}
 
-import "companionlabs.ai/pkg/logging"
+import "companionprofessional.com/pkg/logging"
 
 var log = logging.New("$1")
 var slog = log.Sugar()
@@ -36,7 +36,7 @@ endsnippet
 snippet main "The standard main function for our CLI tools."
 package main
 
-import "companionlabs.ai/pkg/logging"
+import "companionprofessional.com/pkg/logging"
 
 func main() {
 	defer logging.Cleanup()
@@ -67,7 +67,7 @@ snippet cmd "The standard start of a command for a CLI tool."
 package main
 
 import (
-	"companionlabs.ai/pkg/cliutils"
+	"companionprofessional.com/pkg/cliutils"
 	"github.com/spf13/cobra"
 )
 
