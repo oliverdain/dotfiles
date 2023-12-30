@@ -54,3 +54,19 @@
   apt:
     deb: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb
   become: true
+- name: See if kubie is installed
+  stat:
+    path: ~/bin/kubie
+  register: kubie_stat
+- name: Install kubie
+  block:
+    - name: download kubie
+      get_url:
+        url: https://github.com/sbstp/kubie/releases/latest/download/kubie-linux-amd64
+        dest: ~/bin/kubie
+    - name: make kubie executable
+      file:
+        path: ~/bin/kubie
+        state: touch
+        mode: u+x
+  when: not kubie_stat.stat.exists
