@@ -50,23 +50,31 @@
         include: lakectl
         dest: ~/bin
   when: not lakectl_stat.stat.exists
+- name: see if k9s is installed
+  stat:
+    path: /usr/bin/k9s
+  register: k9s_stat
 - name: install k9s TUI
   apt:
     deb: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb
   become: true
-- name: See if kubie is installed
+  when: not k9s_stat.stat.exists
+# Kubeswitch requires a tiny bit of bash to set up the shell function. That's already in my .bashrc in yadm so no need
+# to do anything else here.
+- name: see if kubeswitch is installed
   stat:
-    path: ~/bin/kubie
-  register: kubie_stat
-- name: Install kubie
+    path: ~/bin/switcher
+  register: kubeswitch_stat
+- name: install kubeswitch
   block:
-    - name: download kubie
+    - name: download latest version of kubeswitch
       get_url:
-        url: https://github.com/sbstp/kubie/releases/latest/download/kubie-linux-amd64
-        dest: ~/bin/kubie
-    - name: make kubie executable
+        url: https://github.com/danielfoehrKn/kubeswitch/releases/latest/download/switcher_linux_amd64
+        dest: ~/bin/switcher
+    - name: make switcher executable
       file:
-        path: ~/bin/kubie
+        path: ~/bin/switcher
         state: touch
         mode: u+x
-  when: not kubie_stat.stat.exists
+  when: not kubeswitch_stat.stat.exists
+

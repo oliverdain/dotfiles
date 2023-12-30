@@ -146,3 +146,10 @@ if [[ -e ~/.bashrc.companion ]]
 then
    source ~/.bashrc.companion
 fi
+
+# Switcher k8's context/namespace manager. My Ansible will install it. See https://github.com/danielfoehrKn/kubeswitch.
+if [[ -e ~/bin/switcher ]]
+then
+   source <(~/bin/switcher init bash)
+fi
+
