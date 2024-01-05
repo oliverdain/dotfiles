@@ -7,10 +7,10 @@
 # [alias]
 #    parkall = "!~/bin/git_park.sh"
 #
-# It finds any worktree with master checked out and instead checks out a new branch (at the same commit) named "park"
+# It finds any worktree with main checked out and instead checks out a new branch (at the same commit) named "park"
 # with a date/time suffix.
 
-master_dir=$(git worktree list | grep master | cut -d' ' -f1)
+main_dir=$(git worktree list | grep main | cut -d' ' -f1)
 
 # When run via a git alias git sets several environment variables which can mess things up. Unset them.
 for ev in $(env)
@@ -22,8 +22,8 @@ do
    fi
 done
 
-if [[ -n $master_dir ]]
+if [[ -n $main_dir ]]
 then
-   echo "Parking $master_dir"
-   git -C $master_dir checkout -b parked-$(date +%Y-%M-%dT%H.%m.%S)
+   echo "Parking $main_dir"
+   git -C $main_dir checkout -b parked-$(date +%Y-%M-%dT%H.%m.%S)
 fi
