@@ -31,7 +31,7 @@
     uris: http://repository.spotify.com
     suites: stable
     components: [ non-free ]
-    signed_by: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
+    signed_by: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
     state: present
   become: true
 - name: Install standard GUI apps

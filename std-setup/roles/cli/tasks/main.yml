@@ -11,6 +11,8 @@
        - httpie
        - tldr
        - tig
+       - ffmpeg
+       - mpv
   become: true
 - name: symlink fdfind to fd
   file:
