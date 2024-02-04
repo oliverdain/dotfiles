@@ -1,8 +1,7 @@
 # These lines and the ones at the end of the file can be uncommented to get timestamp line-by-line
 # tracing of this startup script written to /tmp/bashstart.PID.log so I can
 # debug why .bashrc is sometimes slow.
-
-# PS4='+ $(/usr/local/bin/gdate "+%s.%N")\011 '
+# PS4='+ $(/usr/bin/date "+%s.%N")\011 '
 # exec 3>&2 2>/tmp/bashstart.$$.log
 # set -x
 
@@ -67,9 +66,16 @@ pt() {
    ./pants test --debug --test-output=all $targ -- -s "$@"
 }
 
-if command -v kubectl > /dev/null
+# Running kubectl at all, even with --version or --help, takes about 2 seconds so we don't want to run `command kubectl`
+# or kubectl completion bash if we can help it. Instead, we use `type` to see if kubectl is installed and, if it is, we
+# cache the results of `kubectl completion bash` and source it. That saves about 4 full seconds on shell startup time.
+if type kubectl > /dev/null
 then
-    source <(kubectl completion bash)
+   if [[ ! -e ~/.kube_completions ]]
+   then
+      kubectl completion bash > ~/.kube_completions
+   fi
+   source ~/.kube_completions
 fi
 
 if [[ -e ~/.bashrc_os_specific ]]
@@ -105,9 +111,6 @@ then
    eval "$($FASD_LOC --init auto)"
    alias v='f -e $EDITOR'
 fi
-
-# set +x
-# exec 2>&3 3>&-
 
 # add Pulumi to the PATH
 if [[ -e $HOME/.pulumi ]]
@@ -153,3 +156,5 @@ then
    source <(~/bin/switcher init bash)
 fi
 
+# set +x
+# exec 2>&3 3>&-
