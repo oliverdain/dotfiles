@@ -79,4 +79,13 @@
         state: touch
         mode: u+x
   when: not kubeswitch_stat.stat.exists
+- name: See if rclone is installed
+  stat:
+    path: /usr/bin/rclone
+  register: rclone_stat
+- name: Install rclone
+  apt:
+    deb: https://github.com/rclone/rclone/releases/download/v1.65.2/rclone-v1.65.2-linux-amd64.deb
+  become: true
+  when: not rclone_stat.stat.exists
 

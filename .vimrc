@@ -40,6 +40,8 @@ Plug 'preservim/vim-markdown'
 Plug 'jvirtanen/vim-hcl', { 'branch': 'main' }
 " ChatGPT plugin
 Plug 'madox2/vim-ai'
+" Github Co-pilot
+Plug 'github/copilot.vim', { 'do': ':!~/.config/nvim/pack/github/start/copilot.vim' }
 
 if has('nvim-0.5')
    " for Telescope.nvim
@@ -69,6 +71,13 @@ function! _InstallCocPlugins()
 endfunction
 
 command! InstallCocPlugins :call _InstallCocPlugins()
+
+" By default we disable Github copilot as it's suggestions can be annoying but you can trigger them manually with M-\.
+" We also change the keymap to accept a suggestion.
+au BufNewFile,BufRead * let b:copilot_enabled = 0
+imap <silent><script><expr> <C-p> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
