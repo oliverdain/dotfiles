@@ -10,7 +10,7 @@
 # It finds any worktree with main checked out and instead checks out a new branch (at the same commit) named "park"
 # with a date/time suffix.
 
-main_dir=$(git worktree list | grep main | cut -d' ' -f1)
+main_dir=$(git worktree list | grep '\[main\]' | cut -d' ' -f1)
 
 # When run via a git alias git sets several environment variables which can mess things up. Unset them.
 for ev in $(env)

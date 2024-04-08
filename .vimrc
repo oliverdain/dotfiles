@@ -34,6 +34,7 @@ Plug 'flazz/vim-colorschemes'
 " papercolor color scheme
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-fugitive'
+Plug 'rbong/vim-flog'
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 " For Hashicorp syntax highlighting (e.g. Packer)

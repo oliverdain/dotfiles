@@ -41,6 +41,8 @@
       - lyx
       - signal-desktop
       - spotify-client
+      # This provides Google Drive access through KDE file manager
+      - kio-gdrive
   become: true
 # We'd like to install neovim-qt via AppImage or deb but they don't currently make it easy to find the AppImage (see
 # https://github.com/equalsraf/neovim-qt/issues/) and the version available via apt-get is very out of date and has a
