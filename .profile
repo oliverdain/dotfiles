@@ -1,4 +1,4 @@
-export PATH="/home/oliver/bin:$PATH"
+export PATH="${HOME}/bin:$PATH"
 
 export HISTFILESIZE=10000
 export HISTSIZE=10000
