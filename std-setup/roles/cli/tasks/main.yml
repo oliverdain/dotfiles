@@ -1,3 +1,15 @@
+- name: Setup the ngrok apt repo
+  deb822_repository:
+    name: ngrok
+    types: deb
+    uris: https://ngrok-agent.s3.amazonaws.com
+    # out of date for Bookworm but that's what they've got and it seems to work
+    suites: buster
+    components:
+      - main
+    signed_by: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
+    state: present
+  become: true
 - name: install some standard packages
   apt:
      cache_valid_time: 600
@@ -13,6 +25,7 @@
        - tig
        - ffmpeg
        - mpv
+       - ngrok
   become: true
 - name: symlink fdfind to fd
   file:

@@ -96,3 +96,9 @@ endsnippet
 snippet enumer "Add the go:generate comment for enumer."
 //go:generate enumer -text -type=$1 -linecomment
 endsnippet
+
+snippet (web "Set up the standard function signature for a web endpoint" i
+(w http.ResponseWriter, r *http.Request) {
+	$0
+}
+endsnippet
