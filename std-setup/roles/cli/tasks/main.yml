@@ -10,15 +10,28 @@
     signed_by: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
     state: present
   become: true
-  register: added_ngrok_repo
-- name: update apt cache
-  apt:
-    update_cache: true
+- name: see if the SpiderOak APT key exists
+  stat:
+    path: /usr/share/keyrings/spideroak.gpg
+  register: so_key_stat
+- name: Download the SpiderOak apt key
+  command: sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/spideroak.gpg --keyserver keyserver.ubuntu.com --recv-keys 573E3D1C51AE1B3D
+  when: not so_key_stat.stat.exists
+- name: add the SpiderOak repo
+  deb822_repository:
+    name: spideroak
+    types: deb
+    uris: http://apt.spideroak.com/ubuntu/
+    # out of date for Bookworm but that's what they've got and it seems to work
+    suites: release
+    components:
+      - restricted
+    signed_by: /usr/share/keyrings/spideroak.gpg
+    state: present
   become: true
-  when: added_ngrok_repo.changed
 - name: install some standard packages
   apt:
-     cache_valid_time: 600
+     update_cache: true
      pkg:
        - ripgrep
        - fd-find
