@@ -10,6 +10,12 @@
     signed_by: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
     state: present
   become: true
+  register: added_ngrok_repo
+- name: update apt cache
+  apt:
+    update_cache: true
+  become: true
+  when: added_ngrok_repo.changed
 - name: install some standard packages
   apt:
      cache_valid_time: 600
