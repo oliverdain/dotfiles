@@ -72,6 +72,25 @@
   stat:
     path: ~/bin/lakectl
   register: lakectl_stat
+  tags: [ lakectl ]
+- name: See if lakectl is the right version
+  command: ~/bin/lakectl --version
+  register: lake_version_reg
+  when: lakectl_stat.stat.exists
+  tags: [ lakectl ]
+# Now we have to parse the output of lakectl --version. If we don't find the right version the result will be the
+# *string* -1. If we didn't even have lakectl installed at all we set the same fact to -1 below so that we know we need
+# to install it if lake_version_correct == "-1".
+- name: Extract lakectl version from stdout string
+  set_fact:
+    lake_version_correct: "{{ lake_version_reg.stdout.find('lakectl version: ' ~ lakefs_version ~ '\n') }}"
+  when: lakectl_stat.stat.exists
+  tags: [ lakectl ]
+- name: Set lake_version_correct to -1 if lakectl isn't found at all
+  set_fact:
+    lake_version_correct: "-1"
+  when: not lakectl_stat.stat.exists
+  tags: [ lakectl ]
 - name: Install lakefs CLI
   block:
     - name: Download lakefs tarball
@@ -83,7 +102,8 @@
         src: /tmp/lakefs.tar.gz
         include: lakectl
         dest: ~/bin
-  when: not lakectl_stat.stat.exists
+  when: lake_version_correct == "-1"
+  tags: [ lakectl ]
 - name: see if k9s is installed
   stat:
     path: /usr/bin/k9s
