@@ -10,24 +10,24 @@
     signed_by: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
     state: present
   become: true
-- name: see if the SpiderOak APT key exists
-  stat:
-    path: /usr/share/keyrings/spideroak.gpg
-  register: so_key_stat
-- name: Download the SpiderOak apt key
-  command: sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/spideroak.gpg --keyserver keyserver.ubuntu.com --recv-keys 573E3D1C51AE1B3D
-  when: not so_key_stat.stat.exists
-- name: add the SpiderOak repo
+- name: Setup the Syncthing apt repo
   deb822_repository:
-    name: spideroak
+    name: syncthing
     types: deb
-    uris: http://apt.spideroak.com/ubuntu/
-    # out of date for Bookworm but that's what they've got and it seems to work
-    suites: release
+    uris: https://apt.syncthing.net
+    signed_by: https://syncthing.net/release-key.gpg
+    suites: syncthing
     components:
-      - restricted
-    signed_by: /usr/share/keyrings/spideroak.gpg
+      - stable
     state: present
+  become: true
+- name: use syncthing from their repo, not the official repo
+  copy:
+    dest: /etc/apt/preferences.d/syncthing.pref
+    content: |
+      Package: *
+      Pin: origin apt.syncthing.net
+      Pin-Priority: 990
   become: true
 - name: install some standard packages
   apt:
@@ -45,6 +45,7 @@
        - ffmpeg
        - mpv
        - ngrok
+       - syncthing
   become: true
 - name: symlink fdfind to fd
   file:
