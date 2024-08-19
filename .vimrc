@@ -131,16 +131,6 @@ endif
 " Font size changes via C-+ and C-- set up below via SetFontSize and some macros.
 let s:fontsize = 12
 
-" Neovide (GUI) specific setup.
-if exists("g:neovide")
-   let g:neovide_cursor_animate_in_insert_mode = v:false
-   let s:fontsize = 11
-   let g:neovide_position_animation_length = 0.01
-   let g:neovide_scroll_animation_length = 0.01
-   let g:neovide_cursor_animation_length = 0.01
-endif
-
-
 function! SetFontSize(size)
   let s:fontsize=a:size
   if exists("g:neovide")
@@ -153,6 +143,16 @@ endfunction
 function! AdjustFontSize(amount)
   :call SetFontSize(s:fontsize+a:amount)
 endfunction
+
+" Neovide (GUI) specific setup.
+if exists("g:neovide")
+   let g:neovide_cursor_animate_in_insert_mode = v:false
+   :call SetFontSize(9)
+   let g:neovide_position_animation_length = 0.01
+   let g:neovide_scroll_animation_length = 0.01
+   let g:neovide_cursor_animation_length = 0.01
+   highlight StatusLine guifg=#3a3a3a guibg=#bcbcbc
+endif
 
 nmap <C-+> :call AdjustFontSize(1)<cr>
 nmap <C--> :call AdjustFontSize(-1)<cr>
