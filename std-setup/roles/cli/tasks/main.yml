@@ -69,6 +69,22 @@
         state: touch
         mode: u+x
   when: not nvim_stat.stat.exists
+- name: See if neovide is installed
+  stat:
+    path: "{{ neovide_path }}"
+  register: nveovide_stat
+- name: install neovide
+  block:
+    - name: download neovide appimg
+      get_url:
+        url: "https://github.com/neovide/neovide/releases/download/{{ neovide_version }}/neovide.AppImage"
+        dest: "{{ neovide_path }}"
+    - name: make neovide executable
+      file:
+        path: "{{ neovide_path }}"
+        state: touch
+        mode: u+x
+  when: not nveovide_stat.stat.exists
 - name: See if lakectl is installed
   stat:
     path: ~/bin/lakectl

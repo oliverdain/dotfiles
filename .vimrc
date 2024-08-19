@@ -126,15 +126,28 @@ if has('nvim')
    " Make normal escape exit terminal mode
    :tnoremap <Esc> <C-\><C-n>
 endif
-
 " end neovim setup
 
-" Font size changes via C-+ and C--
+" Font size changes via C-+ and C-- set up below via SetFontSize and some macros.
 let s:fontsize = 12
 
+" Neovide (GUI) specific setup.
+if exists("g:neovide")
+   let g:neovide_cursor_animate_in_insert_mode = v:false
+   let s:fontsize = 11
+   let g:neovide_position_animation_length = 0.01
+   let g:neovide_scroll_animation_length = 0.01
+   let g:neovide_cursor_animation_length = 0.01
+endif
+
+
 function! SetFontSize(size)
-   let s:fontsize=a:size
-  :execute "GuiFont! DejaVu\ Sans\ Mono:h" . s:fontsize
+  let s:fontsize=a:size
+  if exists("g:neovide")
+     :execute "set guifont=DejaVu\\ Sans\\ Mono:h" . s:fontsize
+  else
+     :execute "GuiFont! DejaVu\ Sans\ Mono:h" . s:fontsize
+  endif
 endfunction
 
 function! AdjustFontSize(amount)
