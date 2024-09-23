@@ -157,4 +157,21 @@
     deb: https://github.com/rclone/rclone/releases/download/v1.65.2/rclone-v1.65.2-linux-amd64.deb
   become: true
   when: not rclone_stat.stat.exists
-
+# Debian ships with a very old version of fzf so we install the latest manually.
+- name: see if fzf is installed
+  stat:
+    path: /usr/local/bin/fzf
+  register: fzf_stat
+- name: install the latest version of fzf
+  block:
+    - name: download fzf
+      get_url:
+        url: https://github.com/junegunn/fzf/releases/download/v0.55.0/fzf-0.55.0-linux_amd64.tar.gz
+        dest: /tmp/fzf.tar.gz
+    - name: extract fzf
+      unarchive:
+        src: /tmp/fzf.tar.gz
+        include: fzf
+        dest: /usr/local/bin
+      become: true
+  when: not fzf_stat.stat.exists
