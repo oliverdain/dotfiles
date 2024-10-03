@@ -17,12 +17,14 @@
       "--max-line-length=120"
    ],
    "python.linting.enabled": true,
-   "python.linting.mypy.enabled": true,
+   "python.linting.mypyEnabled": true,
    "python.analysis.stubPath": "typings",
    "pyright.organizeimports.provider": "isort",
    "pyright.enable": true,
    // Don't show variable types in the editor to the right. I found it a little distracting.
    "pyright.inlayHints.variableTypes": false,
+   "python.analysis.diagnosticMode": "workspace",
+   "inlayHint.enable": false,
 
    "languageserver": {
 		"terraform": {

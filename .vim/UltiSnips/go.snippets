@@ -4,7 +4,15 @@ package ${1}
 import "companionprofessional.com/pkg/logging"
 
 var log = logging.New("$1")
-var slog = log.Sugar()
+endsnippet
+
+snippet tracer "Set up a OTEL tracer"
+package ${1}
+
+
+import "companionprofessional.com/pkg/otelu"
+
+var tracer = otelu.NewLazyTracer("$1")
 endsnippet
 
 snippet ie "Sets up the standard 'if err != nil' block"
@@ -36,10 +44,12 @@ endsnippet
 snippet main "The standard main function for our CLI tools."
 package main
 
-import "companionprofessional.com/pkg/logging"
+import (
+	"companionprofessional.com/pkg/cliutils"
+)
 
 func main() {
-	defer logging.Cleanup()
+	defer cliutils.StdCleanup()
 	cmd := RootCommand()
 	if err := cmd.Execute(); err != nil {
 		panic(err)
@@ -68,6 +78,7 @@ package main
 
 import (
 	"companionprofessional.com/pkg/cliutils"
+	"companionprofessional.com/pkg/otelu"
 	"github.com/spf13/cobra"
 )
 
@@ -78,9 +89,13 @@ func $1() *cobra.Command {
 		Args:  $4,
 	}
 
+	traceOpts := otelu.OtelCliOpts{}
+	otelu.AddOtelCliOpts(cmd, &traceOpts)
+
 	$0
 
 	cmd.Run = func(cmd *cobra.Command, args []string) {
+		cliutils.StdStart("muxhook", true, &traceOpts)
 		err := $5()
 		cliutils.ErrHandler(err, true)
 	}
@@ -100,5 +115,31 @@ endsnippet
 snippet (web "Set up the standard function signature for a web endpoint" i
 (w http.ResponseWriter, r *http.Request) {
 	$0
+}
+endsnippet
+
+snippet httperr "Create an HttpMappable compliant error."
+type $1 struct \{
+	what string
+}
+
+// Construct a new InvalidUUIDErr. what indicates which field is invalid (e.g. the clinic id or user id).
+func New${1}($0) error \{
+	return errors.New($1\{})
+}
+
+var _ error = $1\{}
+var _ erru.HttpMappable = $1\{}
+
+func (m $1) Error() string \{
+	return $2
+}
+
+func (m $1) HttpResponseCode() int \{
+	return $3
+}
+
+func (m $1) HttpErrMessage() string \{
+	return ${4:m.Error()}
 }
 endsnippet
