@@ -383,11 +383,17 @@ nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+" Applying code actions to the selected code block
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
+" Remap keys for applying code actions at the cursor position
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>as  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -526,7 +532,7 @@ endfunction
 command! -narg=* -complete=file O :call CallGo(<f-args>)
 
 command! -narg=* -complete=file D :AsyncRun doit <args>
-command! -narg=* -complete=file T :AsyncRun task <args>
+command! -narg=* -complete=file T :AsyncRun PANTS_COLORS=false PANTS_DYNAMIC_UI=false task <args>
 
 """"
 " C++
