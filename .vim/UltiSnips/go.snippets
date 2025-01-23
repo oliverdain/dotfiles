@@ -89,21 +89,21 @@ func $1() *cobra.Command {
 		Args:  $4,
 	}
 
-	traceOpts := otelu.OtelCliOpts{}
-	otelu.AddOtelCliOpts(cmd, &traceOpts)
+	${5:traceOpts := otelu.OtelCliOpts{}}
+	${6:otelu.AddOtelCliOpts(cmd, &traceOpts)}
 
 	$0
 
 	cmd.Run = func(cmd *cobra.Command, args []string) {
-		cliutils.StdStart("muxhook", true, &traceOpts)
-		err := $5()
+		${7:cliutils.StdStart("$8", true, &traceOpts)}
+		err := $9()
 		cliutils.ErrHandler(err, true)
 	}
 
 	return cmd
 }
 
-func $5() error {
+func $9() error {
 	return nil
 }
 endsnippet

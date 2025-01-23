@@ -54,11 +54,52 @@ if has('nvim-0.5')
    Plug 'fannheyward/telescope-coc.nvim'
    " Recently the file-browser plugin to telescope was moved to its own package 
    Plug 'nvim-telescope/telescope-file-browser.nvim'
+
+   Plug 'nvim-treesitter/nvim-treesitter' " used by codecompanion (and maybe other things)
+   Plug 'olimorris/codecompanion.nvim'
 endif
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 
 call plug#end()
+
+" Function to read and trim the first line from a file. Useful e.g. to store API keys and things so they're not checked
+" into yadm.
+function! ReadFirstLine(filename)
+    let expanded_filename = expand(a:filename)
+    if filereadable(expanded_filename)
+        return trim(readfile(expanded_filename)[0])
+    else
+        echoerr "API key file not found: " . expanded_filename
+        return ''
+    endif
+endfunction
+
+let g:anthropic_api_key = ReadFirstLine('~/.config/anthropic_api_key')
+
+lua << EOF
+  local anthropic_api_key = vim.g.anthropic_api_key
+  require("codecompanion").setup({
+     adapters = {
+       anthropic = function()
+         return require("codecompanion.adapters").extend("anthropic", {
+           env = {
+             api_key = anthropic_api_key
+           },
+         })
+       end,
+     },
+     strategies = {
+       chat = {
+         adapter = "anthropic",
+       },
+       inline = {
+         adapter = "anthropic",
+       },
+     },
+  })
+EOF
+
 filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
