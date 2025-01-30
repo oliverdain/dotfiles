@@ -11,57 +11,7 @@ if has('python3')
   silent! python3 1
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim-Plug Setup
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype off
-call plug#begin('~/.vim/plugged')
-
-Plug 'whiteinge/diffconflicts'
-Plug 'kien/ctrlp.vim'
-Plug 'SirVer/ultisnips'
-Plug 'mileszs/ack.vim'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'jesseleite/vim-agriculture'
-Plug 'francoiscabrol/ranger.vim'
-" Required by ranger.vim
-Plug 'rbgrouleff/bclose.vim'
-Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
-" A collection of color schemes
-Plug 'flazz/vim-colorschemes'
-" papercolor color scheme
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'tpope/vim-fugitive'
-Plug 'rbong/vim-flog'
-Plug 'godlygeek/tabular'
-Plug 'preservim/vim-markdown'
-" For Hashicorp syntax highlighting (e.g. Packer)
-Plug 'jvirtanen/vim-hcl', { 'branch': 'main' }
-" ChatGPT plugin
-Plug 'madox2/vim-ai'
-" Github Co-pilot
-Plug 'github/copilot.vim', { 'do': ':!~/.config/nvim/pack/github/start/copilot.vim' }
-
-if has('nvim-0.5')
-   " for Telescope.nvim
-   Plug 'nvim-lua/popup.nvim'
-   Plug 'nvim-lua/plenary.nvim'
-   Plug 'nvim-telescope/telescope.nvim'
-
-   " CoC plugin for Telescope
-   Plug 'fannheyward/telescope-coc.nvim'
-   " Recently the file-browser plugin to telescope was moved to its own package 
-   Plug 'nvim-telescope/telescope-file-browser.nvim'
-
-   Plug 'nvim-treesitter/nvim-treesitter' " used by codecompanion (and maybe other things)
-   Plug 'olimorris/codecompanion.nvim'
-endif
-
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-
-call plug#end()
 
 " Function to read and trim the first line from a file. Useful e.g. to store API keys and things so they're not checked
 " into yadm.
@@ -75,6 +25,7 @@ function! ReadFirstLine(filename)
     endif
 endfunction
 
+" This code companion setup should go in the lua plugin config but I'm not sure how to make that all work.
 let g:anthropic_api_key = ReadFirstLine('~/.config/anthropic_api_key')
 
 lua << EOF
@@ -103,25 +54,6 @@ EOF
 filetype plugin indent on
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" End of Vim-Plug setup.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" This installs my standard set of COC plugs.
-function! _InstallCocPlugins()
-   :CocInstall -sync coc-json coc-yaml coc-markdownlint coc-explorer coc-sh coc-pyright
-       \ coc-lists coc-html coc-tsserver coc-go
-endfunction
-
-command! InstallCocPlugins :call _InstallCocPlugins()
-
-" By default we disable Github copilot as it's suggestions can be annoying but you can trigger them manually with M-\.
-" We also change the keymap to accept a suggestion.
-au BufNewFile,BufRead * let b:copilot_enabled = 0
-imap <silent><script><expr> <C-p> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " HOPEFULLY temporary bug workarounds and things
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -144,17 +76,6 @@ au CursorHold,CursorHoldI * checktime
 au FocusGained,BufEnter * :checktime
 
 set mouse=a
-
-" Color scheme and underline spelling errors instead of highlighting them
-" Other colorscheme's I've liked: apprentice and jellybean
-set background=dark
-colo PaperColor
-" The spelling color schedume for PaperColor is awful so change it.
-" Experimentally I needed a autocmd 'cause I think when you load a file that
-" has syntax highlighting the colorscheme changes which would otherwise wipe
-" out these rules.
-autocmd ColorScheme *
-         \ hi clear SpellBad | hi SpellBad cterm=underline gui=underline
 
 " Work with the sytem clipboard
 set clipboard=unnamedplus
@@ -217,8 +138,7 @@ command! Ex :RangerCurrentFile
 " When you use :AsyncRun open the quickfix window and show 8 lines
 :let g:asyncrun_open = 8
 
-" To use ag/Silver Searcher (https://github.com/ggreer/the_silver_searcher)
-" with the Ack plugin
+" To use ripgrep with the Ack plugin
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
 endif
@@ -234,9 +154,6 @@ let g:netrw_liststyle = 1
 " Hide the leading . and .. lines
 let g:netrw_list_hide = '^\./,^\.\./'
 
-
-" Ultisnips defaults to <tab> but that conflicts with YouCompleteMe
-let g:UltiSnipsExpandTrigger = '<C-j>'
 
 " When editing a file, always jump to the last known cursor position.
 " Don't do it when the position is invalid or when inside an event handler
@@ -295,16 +212,6 @@ set nobackup
 " Also load indent files, to automatically do language-dependent indenting.
 filetype plugin indent on
 filetype plugin on
-
-" Vimdiff highlighting - commented out for now as I'm hoping color schemes
-" will handle this better.
-" if ! has("gui_running")
-"   " Make vimdiff colors not suck
-"   highlight DiffAdd cterm=none ctermfg=Black ctermbg=Green
-"   highlight DiffDelete cterm=none ctermfg=Black ctermbg=Red
-"   highlight DiffChange cterm=none ctermfg=Black ctermbg=Yellow
-"   highlight DiffText cterm=none ctermfg=Black ctermbg=Magenta
-" endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General commands/keyboard shortcuts for all files
@@ -670,56 +577,6 @@ if executable('ag')
   " Use ag in CtrlP for listing files.
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-
-if has('nvim-0.5')
-   lua require('telescope').load_extension('coc')
-   lua require('telescope').load_extension('file_browser')
-   nmap ,e <cmd>Telescope find_files search_dirs=%:h<cr>
-   " ,p opens a filesystem explorer from the current working director (p is short
-   " for pwd)
-   nmap ,p <cmd>Telescope find_files<cr>
-   nmap ,b <cmd>Telescope buffers<cr>
-   nmap ,g <cmd>Telescope live_grep<cr>
-   " Like ,g but live-grep only files in the current directory or under.
-   nmap ,l <cmd>Telescope live_grep search_dirs=%:h<cr>
-
-   nmap ,f <cmd>Telescope file_browser<cr>
-   nmap ,c <cmd>Telescope file_browser path=%:p:h<cr>
-
-   " man pages
-   nmap ,m <cmd>Telescope man_pages<cr>
-   nmap ,h <cmd>Telescope help_tags<cr>
-
-" If you create a new file by typing a non-existent filename in the telescope file browser it first creates the file and
-" then opens it so BufNewFile events aren't triggered. But that breaks some automatations I have (e.g. auto-insert a
-" copyright UltiSnips) so here I **try** to manually trigger BufNewFile for the file but, for some reason, it doesn't
-" quite work.
-"
-" TOOD: FIX!
-lua <<LUA
-require("telescope").setup({
-  extensions = {
-    file_browser = {
-      mappings = {
-        i = {
-          ["<S-CR>"] = function(prompt_bufnr)
-            require("telescope._extensions.file_browser.actions").create_from_prompt(prompt_bufnr)
-            vim.cmd('doautocmd "BufNewFile"')
-          end,
-        },
-      },
-    },
-  },
-})
-LUA
-else
-   nmap ,e :CtrlP %:p:h<CR>
-   " ,p opens a filesystem explorer from the current working director (p is short
-   " for pwd)
-   nmap ,p :CtrlP getcwd()<CR>
-   nmap ,b :Buffers<CR>
-endif
-
 
 " There is apparently a bug in some versions of gvim that cause the cursor to
 " be invisible. This strange hack fixes it!

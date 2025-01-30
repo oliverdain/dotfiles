@@ -6,6 +6,9 @@ if !file_readable('/usr/local/bin/python3')
   let g:python3_host_prog = '/usr/bin/python3'
 endif
 
+" Set up Lazy.nvim
+lua require("config.lazy")
+
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
