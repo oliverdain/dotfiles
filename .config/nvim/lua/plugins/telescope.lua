@@ -5,7 +5,13 @@ return {
       priority = 100,
       dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
       config = function()
-         require("telescope").setup()
+         require("telescope").setup{
+            extensions = {
+               file_browser = {
+                  depth = false
+               }
+            }
+         }
          local builtin = require('telescope.builtin')
          -- Search in the same directory as the current file
          vim.keymap.set("n", ",c", ":Telescope file_browser path=%:p:h<CR>")

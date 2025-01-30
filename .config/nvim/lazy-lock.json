@@ -3,7 +3,7 @@
   "asyncrun.vim": { "branch": "master", "commit": "78dc9277f2b989553861ee7c35b640112d95e1b5" },
   "bclose.vim": { "branch": "master", "commit": "99018b4a2dd18aea1cbd3aa23565b01a0f8c5b73" },
   "coc.nvim": { "branch": "release", "commit": "b45563656be26e518992ffede778f918dc443012" },
-  "codecompanion.nvim": { "branch": "main", "commit": "b4fa885e7f99421d9ae89125e78653e14fd6e033" },
+  "codecompanion.nvim": { "branch": "main", "commit": "5fa8325af087195167f9fa4dc517756ff4a0ead9" },
   "ctrlp.vim": { "branch": "master", "commit": "564176f01d7f3f7f8ab452ff4e1f5314de7b0981" },
   "diffconflicts": { "branch": "master", "commit": "4972d1401e008c5e9afeb703eddd1b2c2a1d1199" },
   "fzf": { "branch": "master", "commit": "6c0ca4a64a4e2f8697dfa830dcae56c1d7ddca51" },
