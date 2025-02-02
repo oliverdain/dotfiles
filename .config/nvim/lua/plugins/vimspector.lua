@@ -63,11 +63,11 @@ return {
             }
          }
       end,
-      build = function()
-         vim.cmd([[:VimspectorInstall delve]])
-         vim.cmd([[:VimspectorInstall debugpy]])
-      end,
       config = function()
+         utils.run_once("vimspector", function()
+            vim.cmd([[:VimspectorInstall delve]])
+            vim.cmd([[:VimspectorInstall debugpy]])
+         end)
          -- require("vimspector").setup()
          -- Vimspector in vim shows variable values if you hover but neovim doesn't have a hover thing so we let \di
          -- be mapped to a command that'll show the variable value in normal and visual mode.
