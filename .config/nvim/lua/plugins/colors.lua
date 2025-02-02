@@ -21,9 +21,11 @@ return {
          vim.cmd([[autocmd ColorScheme * hi clear SpellBad | hi SpellBad cterm=underline gui=underline]])
       end,
       config = function()
-         vim.api.nvim_create_autocmd("UIEnter", {
+         vim.api.nvim_create_autocmd("VimEnter", {
            callback = function()
-             vim.cmd("colorscheme PaperColor")
+               vim.cmd([[set background=dark]])
+               vim.cmd([[colorscheme PaperColor]])
+               vim.cmd([[autocmd ColorScheme * hi clear SpellBad | hi SpellBad cterm=underline gui=underline]])
            end
          })
       end,
