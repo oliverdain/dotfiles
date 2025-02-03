@@ -81,6 +81,9 @@ return {
          vim.api.nvim_create_user_command("Debug", function()
             vim.fn["vimspector#Continue"]()
          end, {})
+         vim.api.nvim_create_user_command("Breakpoints", function()
+            vim.fn["vimspector#ListBreakpoints"]()
+         end, {})
 
          -- Trigger keymaps that are only active when debugging
          vim.api.nvim_create_autocmd("User", {
