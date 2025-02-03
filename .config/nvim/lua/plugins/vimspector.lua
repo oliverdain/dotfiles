@@ -64,6 +64,7 @@ return {
          }
       end,
       config = function()
+         local utils = require("utils")
          utils.run_once("vimspector", function()
             vim.cmd([[:VimspectorInstall delve]])
             vim.cmd([[:VimspectorInstall debugpy]])

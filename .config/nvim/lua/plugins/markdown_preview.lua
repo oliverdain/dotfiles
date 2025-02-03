@@ -4,7 +4,7 @@ return {
        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
        ft = { "markdown" },
        config = function()
-         utils = require("utils")
+         local utils = require("utils")
          utils.run_once("markdown-preview", function()
             vim.fn["mkdp#util#install"]()
          end)
