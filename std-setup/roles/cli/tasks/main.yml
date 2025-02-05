@@ -46,7 +46,10 @@
        - mpv
        - ngrok
        - syncthing
+       # python3-dev installs the Python headers and things which my vimspector setup needs to install debugpy.
+       - python3-dev
   become: true
+  tags: [ std-pkg ]
 - name: symlink fdfind to fd
   file:
     src: /usr/bin/fdfind

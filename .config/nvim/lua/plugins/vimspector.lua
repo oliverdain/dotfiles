@@ -25,6 +25,29 @@ local function rm_debug_keys()
    vim.api.nvim_del_user_command("DebugStop")
 end
 
+local function find_python()
+  local python_path = vim.fn.exepath('python3') or vim.fn.exepath('python')
+  if python_path == '' then
+    return nil
+  end
+  return python_path
+end
+
+-- Search up the file tree from file until we find a directory named src and return the path to that.
+local function find_src_dir(file_path)
+  local current_dir = vim.fn.fnamemodify(file_path, ':p:h')
+  
+  while current_dir ~= '/' do
+    local src_path = current_dir .. '/src'
+    if vim.fn.isdirectory(src_path) == 1 then
+      return src_path
+    end
+    current_dir = vim.fn.fnamemodify(current_dir, ':h')
+  end
+  
+  return nil
+end
+
 return {
    {
       "puremourning/vimspector",
@@ -60,7 +83,53 @@ return {
                 mode = "test",
                 dlvToolPath = "$HOME/go/bin/dlv"
               }
-            }
+            },
+            RunPy = {
+               adapter = "debugpy",
+               configuration = {
+                   name = "run the executable",
+                   filetypes = { "python" },
+                   request = "launch",
+                   args = {"*${CommandLineArgs}" },
+                   python = find_python(),
+                   -- TODO: I couldn't figure out a nice way to automatically generate this from the file name. I think
+                   -- maybe the solution will be to dynamically generate a config like this given a command like
+                   -- :DebugPyMod and it'll use lua code to find the relative path to the module, remove the .py
+                   -- extension, convert "/" to ".", etc. and then call vimspector#LaunchWithConfigurations. For now
+                   -- you just have to manually type in the module name.
+                   module = "${ModuleName}",
+                   -- Assumes the code is all under src and you need to be in that directory in order to import things
+                   -- correctly.
+                   cwd = "./src",
+               },
+               breakpoints = {
+                   exception = {
+                     raised = "N",
+                     caught = "N",
+                     uncaught = "Y",
+                     userUnhandled = "N"
+                   }
+               }
+           },
+           TestPy = {
+               adapter = "debugpy",
+               configuration = {
+                   name = "run the test",
+                   module = "pytest",
+                   type = "python",
+                   request = "launch",
+                   python = find_python(),
+                   args = { "-q", "${file}" },
+               },
+               breakpoints = {
+                   exception = {
+                     raised = "N",
+                     caught = "N",
+                     uncaught = "Y",
+                     userUnhandled = "N"
+                   }
+               }
+           },
          }
       end,
       config = function()
