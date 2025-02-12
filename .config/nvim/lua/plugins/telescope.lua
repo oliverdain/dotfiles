@@ -5,18 +5,8 @@ return {
       priority = 100,
       dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
       config = function()
-         require("telescope").setup{
-            extensions = {
-               file_browser = {
-                  depth = false
-               }
-            }
-         }
+         require("telescope").setup()
          local builtin = require('telescope.builtin')
-         -- Search in the same directory as the current file
-         vim.keymap.set("n", ",c", ":Telescope file_browser path=%:p:h<CR>")
-         -- Search in the current working directory
-         vim.keymap.set("n", ",p", ":Telescope file_browser<CR>")
          vim.keymap.set("n", ",b", ":Telescope buffers<CR>")
          -- -- Live grep starting from pwd
          vim.keymap.set("n", ",g", builtin.live_grep)
@@ -38,7 +28,17 @@ return {
       "nvim-telescope/telescope-file-browser.nvim",
       dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
       config = function()
-         require("telescope").load_extension "file_browser"
+         ts = require("telescope")
+         ts.load_extension "file_browser"
+         fb = ts.extensions.file_browser
+         -- Search in the same directory as the current file
+         vim.keymap.set("n", ",c", function()
+            fb.file_browser{ depth = 1, path="%:p:h" }
+         end)
+         -- Search in the current working directory
+         vim.keymap.set("n", ",p", function()
+            fb.file_browser{ auto_depth = true }
+         end)
       end
    }
  }
