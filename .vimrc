@@ -244,12 +244,6 @@ nmap <C-s> :w<cr>
 "map killws to a command to remove trailing whitespace
 command! Killws :% s/\s\+$//g
 
-" Close the current buffer but leave the window open
-" on the previous buffer (if you just close the current buffer it also
-" closes the window. b# goes to previous buffer, and then bd# deletes the
-" one you were just on)
-command! Bc :b#|:bd#
-
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
