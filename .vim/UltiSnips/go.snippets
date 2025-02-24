@@ -78,6 +78,37 @@ package main
 
 import (
 	"companionprofessional.com/pkg/cliutils"
+	"github.com/spf13/cobra"
+)
+
+func $1() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "$2",
+		Short: "$3",
+		Args:  $4,
+	}
+
+	$0
+
+	cmd.Run = func(cmd *cobra.Command, args []string) {
+		cliutils.StdStart("$5", true, nil)
+		err := $6()
+		cliutils.ErrHandler(err, true)
+	}
+
+	return cmd
+}
+
+func $6() error {
+	return nil
+}
+endsnippet
+
+snippet cmdotel "The standard start of a command for a CLI tool that uses OTEL."
+package main
+
+import (
+	"companionprofessional.com/pkg/cliutils"
 	"companionprofessional.com/pkg/otelu"
 	"github.com/spf13/cobra"
 )
@@ -89,21 +120,21 @@ func $1() *cobra.Command {
 		Args:  $4,
 	}
 
-	${5:traceOpts := otelu.OtelCliOpts{}}
-	${6:otelu.AddOtelCliOpts(cmd, &traceOpts)}
+	traceOpts := otelu.OtelCliOpts{}
+	otelu.AddOtelCliOpts(cmd, &traceOpts)
 
 	$0
 
 	cmd.Run = func(cmd *cobra.Command, args []string) {
-		${7:cliutils.StdStart("$8", true, &traceOpts)}
-		err := $9()
+		cliutils.StdStart("$5", true, &traceOpts)
+		err := $6()
 		cliutils.ErrHandler(err, true)
 	}
 
 	return cmd
 }
 
-func $9() error {
+func $6() error {
 	return nil
 }
 endsnippet
