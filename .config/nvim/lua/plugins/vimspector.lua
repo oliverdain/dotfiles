@@ -53,7 +53,7 @@ return {
       "puremourning/vimspector",
       init = function()
          vim.g.vimspector_configurations = {
-            Run = {
+            ["Go Run"] = {
               adapter = "vscode-go",
               filetypes = { "go" },
               configuration = {
@@ -63,7 +63,7 @@ return {
                 dlvToolPath = "$HOME/go/bin/dlv"
               }
             },
-            ["Run Args"] = {
+            ["Go Run Args"] = {
               adapter = "vscode-go",
               filetypes = { "go" },
               configuration = {
@@ -74,7 +74,7 @@ return {
                 dlvToolPath = "$HOME/go/bin/dlv"
               }
             },
-            Test = {
+            ["Go Test"] = {
               adapter = "vscode-go",
               filetypes = { "go" },
               configuration = {
@@ -84,7 +84,7 @@ return {
                 dlvToolPath = "$HOME/go/bin/dlv"
               }
             },
-            RunPy = {
+            ["Py Run"] = {
                adapter = "debugpy",
                configuration = {
                    name = "run the executable",
@@ -111,7 +111,7 @@ return {
                    }
                }
            },
-           TestPy = {
+           ["Py Test"] = {
                adapter = "debugpy",
                configuration = {
                    name = "run the test",
