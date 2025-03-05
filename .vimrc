@@ -113,7 +113,8 @@ if exists("g:neovide")
    let g:neovide_position_animation_length = 0.01
    let g:neovide_scroll_animation_length = 0.01
    let g:neovide_cursor_animation_length = 0.01
-   highlight StatusLine guifg=#3a3a3a guibg=#bcbcbc
+   highlight StatusLine guifg=#cdcdcd guibg=#2f2f72
+   highlight StatusLineNC guifg=#cdcdcd guibg=#252530
 endif
 
 nmap <C-+> :call AdjustFontSize(1)<cr>
