@@ -33,3 +33,6 @@ if [ -e ~/.profile.companion ]
 then
    . ~/.profile.companion
 fi
+# BEGIN ANSIBLE MANAGED for golang
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+# END ANSIBLE MANAGED for golang
