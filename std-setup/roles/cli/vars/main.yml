@@ -5,3 +5,4 @@ neovide_version: 0.13.3
 lakefs_version: 1.49.1
 volta_version: 2.0.2
 volta_dir: ~/.volta
+go_version: go1.23.3

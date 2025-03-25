@@ -195,3 +195,34 @@
         dest: /usr/local/bin
       become: true
   when: not fzf_stat.stat.exists
+- name: get golang version
+  command: go version
+  register: golang_check
+  ignore_errors: true
+  tags: [go]
+- name: Download and install golang
+  block:
+    - name: Download golang
+      get_url:
+        url: https://golang.org/dl/{{go_version}}.linux-amd64.tar.gz
+        dest: /tmp/{{go_version}}.tar.gz
+    - name: remove any old versions of go
+      file:
+        path: /usr/local/go
+        state: absent
+      become: true
+    - name: extract the golang tarball
+      unarchive:
+        src: /tmp/{{go_version}}.tar.gz
+        dest: /usr/local
+      become: true
+  when: golang_check.rc != 0 or go_version not in golang_check.stdout
+  tags: [go]
+- name: add go to the $PATH
+  blockinfile:
+    path: ~/.profile
+    marker: "# {mark} ANSIBLE MANAGED for golang"
+    block: export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+    create: true
+  tags: [go]
+
