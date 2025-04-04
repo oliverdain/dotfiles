@@ -3,7 +3,7 @@ return {
      "folke/tokyonight.nvim",
      lazy = true,
      opts = { style = "moon" },
-     priority = 1000
+     priority = 1000,
   },
   {
      "catppuccin/nvim",
@@ -19,9 +19,17 @@ return {
      "vague2k/vague.nvim",
      lazy = false,
      priority = 1000,
+  },
+  {
+     "NLKNguyen/papercolor-theme",
+     lazy = false,
+     priority = 1000,
+     init = function()
+        vim.cmd([[colorscheme PaperColor]])
+     end,
      config = function()
-       require("vague").setup()
-       vim.cmd([[colorscheme vague]])
+        -- Underline instead of highlight spelling errors
+        vim.cmd([[autocmd ColorScheme * hi clear SpellBad | hi SpellBad cterm=underline gui=underline]])
      end
   }
 }

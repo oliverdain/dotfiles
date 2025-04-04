@@ -56,7 +56,7 @@ source ~/bin/git-completion.bash
 alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name '*.cpp' \)"
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
-alias mpv_with_frame='mpv --ods-level=2 --osd-msg2="\${estimated-frame-number}"'
+alias mpv_with_frame='mpv --osd-level=2 --osd-msg2="\${estimated-frame-number}"'
 alias act='source $(find_up venv)/venv/bin/activate'
 
 # A function to run pants test with output in --debug mode. Takes n arguments: the first is the target to test and the
