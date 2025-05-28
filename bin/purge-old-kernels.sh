@@ -43,7 +43,7 @@ for kernel in $kernels_to_remove; do
     # Also remove corresponding headers
     header_package="${kernel/image/headers}"
     if dpkg --list | grep -q "$header_package"; then
-       to_remove = "$to_remove $header_package"
+       to_remove="$to_remove $header_package"
     fi
 done
 
