@@ -66,7 +66,7 @@
   block:
     - name: Download the neovim appimg
       get_url:
-        url: "https://github.com/neovim/neovim/releases/download/{{ nvim_version}}/nvim.appimage"
+        url: "https://github.com/neovim/neovim/releases/download/{{ nvim_version}}/nvim-linux-x86_64.appimage"
         dest: "{{ nvim_path }}"
     - name: Make nvim executable
       file:

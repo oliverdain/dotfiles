@@ -19,17 +19,17 @@ return {
      "vague2k/vague.nvim",
      lazy = false,
      priority = 1000,
+     init = function()
+        vim.cmd([[colorscheme vague]])
+     end,
   },
   {
      "NLKNguyen/papercolor-theme",
      lazy = false,
      priority = 1000,
-     init = function()
-        vim.cmd([[colorscheme PaperColor]])
-     end,
-     config = function()
-        -- Underline instead of highlight spelling errors
-        vim.cmd([[autocmd ColorScheme * hi clear SpellBad | hi SpellBad cterm=underline gui=underline]])
-     end
+     -- config = function()
+     --    -- Underline instead of highlight spelling errors
+     --    vim.cmd([[autocmd ColorScheme * hi clear SpellBad | hi SpellBad cterm=underline gui=underline]])
+     -- end
   }
 }

@@ -1,5 +1,5 @@
 nvim_path: "{{ ansible_env.HOME }}/bin/nvim"
-nvim_version: v0.10.1
+nvim_version: v0.11.1
 neovide_path: "{{ ansible_env.HOME }}/bin/neovide"
 neovide_version: 0.13.3
 lakefs_version: 1.49.1
