@@ -357,6 +357,10 @@ let g:vim_markdown_folding_level = 6
 " instead as a temporary workaround.
 autocmd FileType markdown setlocal foldlevel=6
 
+""" Kotlin
+
+autocmd FileType kotlin nmap <C-]> :call CocAction('jumpDefinition')<CR>
+
 """"
 " Python
 autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
