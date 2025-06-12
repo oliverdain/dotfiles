@@ -7,3 +7,33 @@
   when: >
     "appimagelauncher" not in ansible_facts.packages
   become: true
+# This sets the open files limit for things started via PAM (e.g. ssh login)
+- name: Configure file descriptor limits in /etc/security/limits.conf
+  blockinfile:
+    path: /etc/security/limits.conf
+    block: |
+      * soft nofile 1048576
+      * hard nofile 1048576
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - File descriptor limits"
+    backup: yes
+  become: yes
+# the following two lines set the open files limit for things started by systemd which includes normal login shell and
+# GUI.
+- name: Set DefaultLimitNOFILE in /etc/systemd/system.conf
+  lineinfile:
+    path: /etc/systemd/system.conf
+    regexp: '^DefaultLimitNOFILE='
+    line: 'DefaultLimitNOFILE=1048576'
+    state: present
+    insertafter: EOF
+    backup: true
+  become: yes
+- name: Set DefaultLimitNOFILE in /etc/systemd/user.conf
+  lineinfile:
+    path: /etc/systemd/user.conf
+    regexp: '^DefaultLimitNOFILE='
+    line: 'DefaultLimitNOFILE=1048576'
+    state: present
+    insertafter: EOF
+    backup: true
+  become: yes
