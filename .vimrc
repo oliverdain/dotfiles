@@ -20,36 +20,10 @@ function! ReadFirstLine(filename)
     if filereadable(expanded_filename)
         return trim(readfile(expanded_filename)[0])
     else
-        echoerr "API key file not found: " . expanded_filename
+        echo "API key file not found: " . expanded_filename
         return ''
     endif
 endfunction
-
-" This code companion setup should go in the lua plugin config but I'm not sure how to make that all work.
-let g:anthropic_api_key = ReadFirstLine('~/.config/anthropic_api_key')
-
-lua << EOF
-  local anthropic_api_key = vim.g.anthropic_api_key
-  require("codecompanion").setup({
-     adapters = {
-       anthropic = function()
-         return require("codecompanion.adapters").extend("anthropic", {
-           env = {
-             api_key = anthropic_api_key
-           },
-         })
-       end,
-     },
-     strategies = {
-       chat = {
-         adapter = "anthropic",
-       },
-       inline = {
-         adapter = "anthropic",
-       },
-     },
-  })
-EOF
 
 filetype plugin indent on
 
