@@ -59,6 +59,10 @@ alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
 alias mpv_with_frame='mpv --osd-level=2 --osd-msg2="\${estimated-frame-number}"'
 alias act='source $(find_up venv)/venv/bin/activate'
 
+cc() {
+   echo "$@" | claude -p
+}
+
 # A function to run pants test with output in --debug mode. Takes n arguments: the first is the target to test and the
 # rest go after the `-- -s` (e.g. so you can add a `-k some_test` to run a single test).
 pt() {
