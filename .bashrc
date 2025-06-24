@@ -59,6 +59,13 @@ alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
 alias mpv_with_frame='mpv --osd-level=2 --osd-msg2="\${estimated-frame-number}"'
 alias act='source $(find_up venv)/venv/bin/activate'
 
+# This alias lets you create an ssh connection that leaves open a control connection which can then be re-used to sftp,
+# scp, etc. over the same connection without having to re-authenticate, or re-establish and connection. Very handy for
+# working on cloud servers with MFA, etc. The aliases below this let us re-use that same connection.
+alias sshc="ssh -o ControlMaster=auto -o ControlPath=~/.ssh/control-%r@%h:%p"
+alias sftpc="sftp -o ControlPath=~/.ssh/control-%r@%h:%p"
+alias scpc="scp -o ControlPath=~/.ssh/control-%r@%h:%p"
+
 cc() {
    echo "$@" | claude -p
 }
