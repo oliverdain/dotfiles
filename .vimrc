@@ -45,9 +45,6 @@ endif
 
 " Autoreload files if they were changed externally
 set autoread
-" And check for changed files if the cursor hasn't moved for a bit, if a buffer gains focus, etc.
-au CursorHold,CursorHoldI * checktime 
-au FocusGained,BufEnter * :checktime
 
 set mouse=a
 
