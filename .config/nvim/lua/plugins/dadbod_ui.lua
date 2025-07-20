@@ -1,3 +1,12 @@
+local function url_encode(str)
+    if str then
+        str = string.gsub(str, "([^%w%-%.%_%~])", function(c)
+            return string.format("%%%02X", string.byte(c))
+        end)
+    end
+    return str
+end
+
 function connections_from_creds()
     -- Create a connection for each SQL connection in ~/.companion/creds
     local creds_dir = vim.fn.expand('~/.companion/creds')
@@ -15,9 +24,12 @@ function connections_from_creds()
         local password = yaml_content:match('password:%s*(.-)%s*\n') or yaml_content:match('password:%s*(.-)%s*$')
         
         if connection_string and password then
-          local url = connection_string:gsub('://([^:@]*)', '://%1:' .. password)
+          local encoded_password = url_encode(password)
+          local url = connection_string:gsub('://([^:@]*)', function(username)
+            return '://' .. username .. ':' .. encoded_password
+          end)
           if not connection_string:match('@') then
-            url = connection_string:gsub('://', '://' .. password .. '@')
+            url = connection_string:gsub('://', '://' .. encoded_password .. '@')
           end
 
           table.insert(dbs, {name = filename, url = url})

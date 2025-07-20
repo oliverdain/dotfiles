@@ -16,6 +16,7 @@ alias lf="ls -F"
 alias ipy="ipython --matplotlib=qt5"
 
 alias nq=nvim-qt
+alias dbv="nvim -c ':DBUI'"
 
 # Funcion to run neovide. Has to be a function, not an alias, so I can background it but also pass arguments to it. The
 # APPIMAGELAUNCHER_DISABLE bit is so AppImageLauncher doesn't try to install it and then give it a CLI-unfriendly name.
