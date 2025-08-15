@@ -21,6 +21,11 @@ return {
      priority = 1000,
      init = function()
         vim.cmd([[colorscheme vague]])
+        -- The diff theme made it very hard to see diffs. This helps.
+        vim.api.nvim_set_hl(0, 'DiffAdd', { bg = '#2d4a2d', fg = '#a3d977' })
+        vim.api.nvim_set_hl(0, 'DiffDelete', { bg = '#4a2d2d', fg = '#f87171' })
+        vim.api.nvim_set_hl(0, 'DiffChange', { bg = '#3d3d2d', fg = '#fbbf24' })
+        vim.api.nvim_set_hl(0, 'DiffText', { bg = '#4a4a2d', fg = '#fbbf24', bold = true })
      end,
   },
   {
