@@ -1,9 +1,11 @@
 - name: Get package facts
   package_facts:
     manager: "auto"
+# We use an alpha release here because it fixes a bug and it seems the author isn't making new releases (hasn't since
+# 2020). See https://github.com/TheAssassin/AppImageLauncher/issues/714
 - name: Install AppImgLauncher
   apt:
-    deb: https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb
+    deb: https://github.com/TheAssassin/AppImageLauncher/releases/download/v3.0.0-alpha-4/appimagelauncher_3.0.0-alpha-4-gha253.36951ec_amd64.deb
   when: >
     "appimagelauncher" not in ansible_facts.packages
   become: true
