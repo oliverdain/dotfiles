@@ -328,6 +328,11 @@ let g:vim_markdown_folding_level = 6
 " instead as a temporary workaround.
 autocmd FileType markdown setlocal foldlevel=6
 
+""" Typescript
+
+autocmd FileType typescript nmap <buffer> <C-]> <Plug>(coc-definition)
+autocmd FileType typescriptreact nmap <buffer> <C-]> <Plug>(coc-definition)
+
 """ Kotlin
 
 autocmd FileType kotlin nmap <C-]> :call CocAction('jumpDefinition')<CR>
