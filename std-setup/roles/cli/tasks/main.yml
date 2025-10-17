@@ -33,6 +33,7 @@
   apt:
      update_cache: true
      pkg:
+       - curl
        - ripgrep
        - fd-find
        - ranger
