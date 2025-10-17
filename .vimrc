@@ -332,6 +332,8 @@ autocmd FileType markdown setlocal foldlevel=6
 
 autocmd FileType typescript nmap <buffer> <C-]> <Plug>(coc-definition)
 autocmd FileType typescriptreact nmap <buffer> <C-]> <Plug>(coc-definition)
+autocmd Filetype typescript setlocal ts=4 sw=4
+autocmd Filetype typescriptreact setlocal ts=4 sw=4
 
 """ Kotlin
 
