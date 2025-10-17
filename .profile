@@ -14,6 +14,12 @@ then
    fi
 fi
 
+if [ -e ~/.volta ]
+then
+   export VOLTA_HOME=${HOME}/.volta
+   export PATH="$PATH:$VOLTA_HOME/bin"
+fi
+
 # For config that's local to a machine and not otherwise shared (e.g. work specific setttings)
 if [ -e ~/.bash_profile_local ]
 then
