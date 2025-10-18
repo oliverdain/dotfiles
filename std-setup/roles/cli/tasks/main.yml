@@ -51,6 +51,7 @@
        - python3-dev
        - buildah
        - podman
+       - watchman
   become: true
   tags: [ std-pkg ]
 - name: symlink fdfind to fd
