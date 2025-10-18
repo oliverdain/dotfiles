@@ -33,6 +33,7 @@
   apt:
      update_cache: true
      pkg:
+       - curl
        - ripgrep
        - fd-find
        - ranger
@@ -95,7 +96,7 @@
     path: "{{ volta_dir }}"
   register: volta_stat
 - name: check volta version
-  command: volta --version
+  command: $HOME/.volta/bin/volta --version
   register: volta_ver
   when: volta_stat.stat.exists
 - name: Install Volta
@@ -198,7 +199,7 @@
       become: true
   when: not fzf_stat.stat.exists
 - name: get golang version
-  command: go version
+  command: /usr/local/go/bin/go version
   register: golang_check
   ignore_errors: true
   tags: [go]
