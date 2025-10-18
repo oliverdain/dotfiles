@@ -101,7 +101,7 @@
   register: volta_ver
   when: volta_stat.stat.exists
 - name: Install Volta
-  # We skip the setup here so that we can have Ansible manage the changing of the profile scripts (see next step)
+  # We skip the setup here - our YADM .profile adds the volta path
   shell: "curl https://get.volta.sh | bash -s -- --version {{ volta_version }} --skip-setup"
   when: not volta_stat.stat.exists or volta_ver.stdout != volta_version
 # The main reason we use volta is to install a recent version of node.js for neovim to use.
@@ -109,6 +109,8 @@
   block:
     - name: install nodejs
       command: $HOME/.volta/bin/volta install node@22
+- name: Install Claude Code
+  command: $HOME/.volta/bin/volta install @anthropic-ai/claude-code@{{ claude_code_version }}
 - name: See if lakectl is installed
   stat:
     path: ~/bin/lakectl

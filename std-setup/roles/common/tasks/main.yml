@@ -1,14 +1,13 @@
 - name: Get package facts
   package_facts:
     manager: "auto"
-# We use an alpha release here because it fixes a bug and it seems the author isn't making new releases (hasn't since
-# 2020). See https://github.com/TheAssassin/AppImageLauncher/issues/714
-- name: Install AppImgLauncher
+# Weused to use AppImgLauncher but it was buggy and intercepted any attempts to run an .AppImg which was annoying for
+# command line tools. If we want a desktop integration tool we should probably move to
+# https://github.com/mijorus/gearlever
+- name: Ensure AppImgLauncher isn't installed.
   apt:
-    deb: https://github.com/TheAssassin/AppImageLauncher/releases/download/v3.0.0-alpha-4/appimagelauncher_3.0.0-alpha-4-gha253.36951ec_amd64.deb
-  when: >
-    "appimagelauncher" not in ansible_facts.packages
-  become: true
+    name: appimagelauncher
+    state: absent
 # This sets the open files limit for things started via PAM (e.g. ssh login)
 - name: Configure file descriptor limits in /etc/security/limits.conf
   blockinfile:
