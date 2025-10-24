@@ -8,6 +8,7 @@
   apt:
     name: appimagelauncher
     state: absent
+  become: true
 # This sets the open files limit for things started via PAM (e.g. ssh login)
 - name: Configure file descriptor limits in /etc/security/limits.conf
   blockinfile:

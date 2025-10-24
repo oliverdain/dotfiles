@@ -192,7 +192,7 @@
   block:
     - name: download fzf
       get_url:
-        url: https://github.com/junegunn/fzf/releases/download/v0.55.0/fzf-0.55.0-linux_amd64.tar.gz
+        url: https://github.com/junegunn/fzf/releases/download/v0.55.0/fzf-0.66.0-linux_amd64.tar.gz
         dest: /tmp/fzf.tar.gz
     - name: extract fzf
       unarchive:
