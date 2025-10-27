@@ -52,6 +52,8 @@
        - buildah
        - podman
        - watchman
+       # If using Wayland you need this to get clipboard integration with neovim working.
+       - wl-clipboard
   become: true
   tags: [ std-pkg ]
 - name: symlink fdfind to fd
