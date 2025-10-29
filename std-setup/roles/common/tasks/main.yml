@@ -39,3 +39,10 @@
     insertafter: EOF
     backup: true
   become: yes
+# Debian Trixie change /tmp so it's an in-memory tempfs which can mess up a bunch of stuff. This undoes that annoying
+# change. See https://lowendbox.com/blog/a-deep-dive-into-debian-13s-tmp-whats-new-and-what-to-do-if-you-dont-like-it/
+# for details.
+- name: Fix /tmp so it's not a tmpfs
+  command: systemctl mask tmp.mount
+  when: ansible_distribution_major_version | int >= 13
+  become: yes
