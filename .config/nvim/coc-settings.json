@@ -40,6 +40,12 @@
       "kotlin": {
          "command": "~/bin/lsp/kotlin/server/bin/kotlin-language-server",
          "filetypes": ["kotlin"]
+      },
+      "pyrefly": {
+        "command": "pyrefly",
+        "args": ["lsp"],
+        "filetypes": ["python"],
+        "rootPatterns": ["pyrefly.toml", "pants.toml"]
       }
 	}
 }

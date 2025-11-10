@@ -149,6 +149,25 @@ snippet (web "Set up the standard function signature for a web endpoint" i
 }
 endsnippet
 
+snippet err "Create a go-errors error and the methods to construct one"
+type $1 struct {
+}
+
+func (e $1) Error() string {
+	return $2
+}
+
+func New$1() error {
+	e := $1{}
+	return errors.New(e)
+}
+
+func Is$1(e error) bool {
+	target := $1{}
+	return errors.Is(e, &target)
+}
+endsnippet
+
 snippet httperr "Create an HttpMappable compliant error."
 type $1 struct \{
 	what string

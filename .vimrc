@@ -343,6 +343,9 @@ autocmd FileType kotlin nmap <C-]> :call CocAction('jumpDefinition')<CR>
 " Python
 autocmd FileType python nmap <buffer> <C-]> <Plug>(coc-definition)
 
+" Parsing for pyrefly output
+autocmd FileType python setlocal errorformat+=%.%#ERROR\ %f:%l:%c-%*[0-9]:\ %m,%.%#WARN\ %f:%l:%c-%*[0-9]:\ %m
+
 " Automatically add the copyright notice to new files. This enters insert mode, types "nfc" which is my UltiSnips
 " snippet for "new file comment" and then hits Ctrl-j to expand it.
 autocmd BufNewFile *.py execute "normal infc\<C-j>"

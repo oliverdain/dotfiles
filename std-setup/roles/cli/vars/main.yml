@@ -1,7 +1,7 @@
 nvim_path: "{{ ansible_env.HOME }}/bin/nvim"
 nvim_version: v0.11.1
 neovide_path: "{{ ansible_env.HOME }}/bin/neovide"
-neovide_version: 0.15.1
+neovide_version: 0.15.2
 lakefs_version: 1.61.0
 volta_version: 2.0.2
 volta_dir: ~/.volta
