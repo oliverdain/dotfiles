@@ -56,5 +56,6 @@ return {
      connections_from_creds()
   end,
   config = function()
+     vim.g.db_ui_execute_on_save = 0
   end,
 }
