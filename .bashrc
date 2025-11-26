@@ -24,31 +24,81 @@ nv() {
    ~/bin/neovide "$@" &
 }
 
-# Defines a function that lets you search for a file walking "up" directories.
+# Defines a function that lets you search for file(s) walking "up" directories.
 # For example, if you call "find_up foo" this will start with pwd and, if pwd
 # contains a file named "foo" this will echo to stdout `pwd`. If `pwd` does
 # not contain a file named foo the directory above `pwd` is then checked
 # and so on until the file is found.
+# Can accept multiple arguments: "find_up foo bar" will check for foo, then bar
+# in each directory before moving up.
 find_up() {
-   if [ $# -ne 1 ]
+   if [ $# -lt 1 ]
    then
-      echo "Error: You must supply exactly 1 argument."
+      echo "Error: You must supply at least 1 argument." >&2
       return 1
    fi
 
-   dir=`pwd`
-   while [ ! -e ${dir}/$1 ]
+   dir=$(pwd)
+   while true
    do
+      # Check each argument in the current directory
+      for arg in "$@"
+      do
+         if [ -e "${dir}/${arg}" ]
+         then
+            echo "$dir"
+            return 0
+         fi
+      done
+
+      # If we're at root, stop
+      if [ "$dir" = "/" ]
+      then
+         break
+      fi
+
+      # Move to parent directory
       dir=${dir%/*}
+
+      # If dir becomes empty (shouldn't happen, but safety check)
+      if [ -z "$dir" ]
+      then
+         break
+      fi
    done
 
-   if [ -e $dir ]
+   echo "Error: None of the specified files found" >&2
+   return 1
+}
+
+# Like find_up, but returns the full path to the found file instead of just the directory.
+find_up_f() {
+   if [ $# -lt 1 ]
    then
-      echo "$dir"
-   else
-      echo "Error: $1 not found" 2>&1
+      echo "Error: You must supply at least 1 argument." >&2
       return 1
    fi
+
+   # Get the directory containing the file
+   dir=$(find_up "$@")
+   if [ $? -ne 0 ]
+   then
+      return 1
+   fi
+
+   # Now find which argument was actually found in that directory
+   for arg in "$@"
+   do
+      if [ -e "${dir}/${arg}" ]
+      then
+         echo "${dir}/${arg}"
+         return 0
+      fi
+   done
+
+   # Should never reach here, but just in case
+   echo "Error: File not found" >&2
+   return 1
 }
 
 alias g='$(find_up settings.gradle)/gradlew'
@@ -58,7 +108,7 @@ alias findc="find . \( -name build -type d -prune \) -o \( -name '*.h' -o -name 
 alias mpv_with_time='mpv --osd-level=2 --osd-fractions'
 alias mpv_with_millis='mpv --osd-level=2 --osd-msg2="\${=time-pos}"'
 alias mpv_with_frame='mpv --osd-level=2 --osd-msg2="\${estimated-frame-number}"'
-alias act='source $(find_up venv)/venv/bin/activate'
+alias act='source $(find_up_f venv .venv)/bin/activate'
 
 # This alias lets you create an ssh connection that leaves open a control connection which can then be re-used to sftp,
 # scp, etc. over the same connection without having to re-authenticate, or re-establish and connection. Very handy for
