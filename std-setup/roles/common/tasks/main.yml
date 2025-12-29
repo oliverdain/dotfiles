@@ -54,7 +54,7 @@
   systemd_service:
       state: stopped
       name: systemd-tmpfiles-clean.timer
-      enabled: false
+      masked: true
   become: yes
 - name: Create an override to the tmpfile cleaner config
   blockinfile:
