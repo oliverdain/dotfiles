@@ -41,7 +41,6 @@
        - python3-pynvim
        - xclip
        - httpie
-       - tldr
        - tig
        - ffmpeg
        - mpv
@@ -51,7 +50,6 @@
        - python3-dev
        - buildah
        - podman
-       - watchman
        # If using Wayland you need this to get clipboard integration with neovim working.
        - wl-clipboard
   become: true

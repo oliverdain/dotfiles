@@ -56,6 +56,10 @@
       name: systemd-tmpfiles-clean.timer
       masked: true
   become: yes
+- name: Check if there is a tmpfile cleaner config
+  stat:
+    path: /etc/myapp/config.conf
+  register: tmpclean
 - name: Create an override to the tmpfile cleaner config
   blockinfile:
     path: /etc/tmpfiles.d/tmp.conf
@@ -63,6 +67,7 @@
     block: |
       D /tmp 1777 root root -
   become: yes
+  when: tmpclean.stat.exists
 - name: Reload systemd daemon
   systemd_service:
     daemon_reload: true
