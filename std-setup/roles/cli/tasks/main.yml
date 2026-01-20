@@ -111,6 +111,7 @@
       command: $HOME/.volta/bin/volta install node@22
 - name: Install Claude Code
   command: $HOME/.volta/bin/volta install @anthropic-ai/claude-code@{{ claude_code_version }}
+  tags: [ claude ]
 - name: See if lakectl is installed
   stat:
     path: ~/bin/lakectl

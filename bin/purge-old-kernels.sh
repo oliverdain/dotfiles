@@ -15,9 +15,9 @@ fi
 current_kernel=$(uname -r)
 echo "Current kernel: $current_kernel (will be kept)"
 
-# List all installed kernels, sort by version, and get all but the 3 newest
-echo "Finding 3 oldest kernels..."
-kernels_to_remove=$(dpkg --list | grep -E 'linux-image-[0-9]' | grep -v "$current_kernel" | tr -s ' ' | cut -f2 -d' ' | sort -V | head -n -3)
+# List all installed kernels, sort by version, and get all but the 2 newest
+echo "Finding all but the 2 newest kernels..."
+kernels_to_remove=$(dpkg --list | grep -E 'linux-image-[0-9]' | grep -v "$current_kernel" | tr -s ' ' | cut -f2 -d' ' | sort -V | head -n -2)
 
 # Check if we found any kernels to remove
 if [ -z "$kernels_to_remove" ]; then
