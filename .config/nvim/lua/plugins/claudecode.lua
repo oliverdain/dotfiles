@@ -1,3 +1,14 @@
+-- For posterirty, I've tried several times to use https://github.com/coder/claudecode.nvim instead of
+-- "greggh/claude-code.nvim". It promises more "real" IDE integration but I've found several issues with it:
+-- First, it runs in a terminal mode which makes things like copy paste really annoying (e.g. see
+-- https://stackoverflow.com/questions/41681739/how-can-i-paste-neovim-registers-in-terminal-mode). Second, the IDE
+-- integration doesn't actually work very well (see my bug here: https://github.com/coder/claudecode.nvim/issues/182)
+-- and most of what it does can be replicated by just copy/pasting the path to the currently open buffer. Third, some of
+-- the seemingly nice benefits like side-by-side diffs are actually awkard because they get embedded between open buffer
+-- and are thus hard to read. Finally, by default it can only put the Claude window on the left or right, but not on the
+-- bottom where I want it (though I was able to fix with this hack:
+-- https://github.com/coder/claudecode.nvim/issues/153#issuecomment-3647955480. Still, at the end of the day I find
+-- greggh more intuitive so I'm sticking with that for now but maybe re-evaluate in the future.
 return {
   "greggh/claude-code.nvim",
   dependencies = {
