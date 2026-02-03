@@ -216,6 +216,22 @@ nmap <C-s> :w<cr>
 "map killws to a command to remove trailing whitespace
 command! Killws :% s/\s\+$//g
 
+" Put the relative path of the current file into a register.
+" Usage: :CurrentPath      - puts path in the default register
+"        :CurrentPath a    - puts path in register "a
+lua << EOF
+vim.api.nvim_create_user_command('Yp', function(opts)
+  local path = vim.fn.expand('%')
+  local reg
+  if opts.args ~= '' then
+    reg = opts.args
+  else
+    reg = '+'
+  end
+  vim.fn.setreg(reg, path)
+end, { nargs = '?' })
+EOF
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
