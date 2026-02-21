@@ -230,6 +230,17 @@ vim.api.nvim_create_user_command('Yp', function(opts)
   end
   vim.fn.setreg(reg, path)
 end, { nargs = '?' })
+
+vim.api.nvim_create_user_command('Yd', function(opts)
+  local dir = vim.fn.expand('%:h')
+  local reg
+  if opts.args ~= '' then
+    reg = opts.args
+  else
+    reg = '+'
+  end
+  vim.fn.setreg(reg, dir)
+end, { nargs = '?' })
 EOF
 
 " Switch syntax highlighting on, when the terminal has colors

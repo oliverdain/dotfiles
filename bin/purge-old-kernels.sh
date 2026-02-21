@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to purge all but the 3 most recent kernels on the machine. Handy when /boot fills up.
+# Script to purge all but the 2 most recent kernels on the machine. Handy when /boot fills up.
 
 # Exit on any error
 set -e
@@ -15,9 +15,10 @@ fi
 current_kernel=$(uname -r)
 echo "Current kernel: $current_kernel (will be kept)"
 
-# List all installed kernels, sort by version, and get all but the 2 newest
+# List all installed kernels, sort by version, and get all but the 2 newest; it's `head -n -1` because we always keep
+# the current kernel so we also want to keep 1 additional one.
 echo "Finding all but the 2 newest kernels..."
-kernels_to_remove=$(dpkg --list | grep -E 'linux-image-[0-9]' | grep -v "$current_kernel" | tr -s ' ' | cut -f2 -d' ' | sort -V | head -n -2)
+kernels_to_remove=$(dpkg --list | grep -E 'linux-image-[0-9]' | grep -v "$current_kernel" | tr -s ' ' | cut -f2 -d' ' | sort -V | head -n -1)
 
 # Check if we found any kernels to remove
 if [ -z "$kernels_to_remove" ]; then

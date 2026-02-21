@@ -117,7 +117,8 @@ For each issue, always provide:
 ## Important Notes
 
 - Never modify any files. This is a read-only review.
-- Generally avoid running tests, linters, type checkers, and formatters - you can assume this is already done.
+- Avoid running tests, linters, type checkers, and formatters - you can assume this is already done.
 - If you cannot determine the root branch, ask the user to specify it.
 - If the diff is extremely large (50+ files), provide a high-level summary first, then offer to deep-dive into specific files or areas of concern.
 - Always run the git commands to get actual diff data. Never fabricate or assume what the changes are.
+
