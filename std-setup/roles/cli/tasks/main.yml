@@ -79,19 +79,47 @@
 - name: See if neovide is installed
   stat:
     path: "{{ neovide_path }}"
-  register: nveovide_stat
+  register: neovide_stat
 - name: install neovide
   block:
     - name: download neovide appimg
       get_url:
         url: "https://github.com/neovide/neovide/releases/download/{{ neovide_version }}/neovide.AppImage"
-        dest: "{{ neovide_path }}"
-    - name: make neovide executable
-      file:
-        path: "{{ neovide_path }}"
-        state: touch
+        dest: /tmp/neovide.AppImage
         mode: u+x
-  when: not nveovide_stat.stat.exists
+    - name: extract neovide appimg
+      command:
+        cmd: /tmp/neovide.AppImage --appimage-extract
+        chdir: /tmp
+    - name: move extracted neovide to bin
+      command: mv /tmp/squashfs-root {{ neovide_extracted_dir }}
+    - name: symlink neovide to extracted AppRun
+      file:
+        src: "{{ neovide_extracted_dir }}/AppRun"
+        dest: "{{ neovide_path }}"
+        state: link
+    - name: clean up appimage
+      file:
+        path: /tmp/neovide.AppImage
+        state: absent
+    - name: ensure applications directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/applications"
+        state: directory
+    - name: install neovide desktop file
+      copy:
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/neovide.desktop"
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Exec={{ neovide_path }} %F
+          Icon={{ neovide_extracted_dir }}/neovide.svg
+          Name=Neovide
+          Keywords=Text;Editor;
+          Categories=Utility;TextEditor;
+          Comment=No Nonsense Neovim Client in Rust
+          MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+  when: not neovide_stat.stat.exists
 - name: Check if Volta is installed
   stat:
     path: "{{ volta_dir }}"
