@@ -137,9 +137,15 @@
   block:
     - name: install nodejs
       command: $HOME/.volta/bin/volta install node@22
-- name: Install Claude Code
-  command: $HOME/.volta/bin/volta install @anthropic-ai/claude-code@{{ claude_code_version }}
+- name: see if claude is installed
+  stat:
+    path: $HOME/.local/bin/claude 
+  register: claude_stat
   tags: [ claude ]
+- name: Install Claude Code
+  command: "{{ role_path }}/files/claude-installer.sh"
+  tags: [ claude ]
+  when: not claude_stat.stat.exists
 - name: See if lakectl is installed
   stat:
     path: ~/bin/lakectl
