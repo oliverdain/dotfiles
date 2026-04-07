@@ -5,10 +5,13 @@
     "vivaldi-stable" not in ansible_facts.packages
   become: true
 - name: remove legacy Signal signing key
-  apt_key:
-    url: https://updates.signal.org/desktop/apt/keys.asc
+  ansible.builtin.file:
+    path: "{{ item }}"
     state: absent
   become: true
+  loop:
+    - /etc/apt/keyrings/signal-desktop-keyring.gpg
+    - /etc/apt/keyrings/signal-desktop-keyring.asc
 - name: add Signal apt repo and signing key
   deb822_repository:
     name: signal
