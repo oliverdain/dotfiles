@@ -7,3 +7,4 @@ lakefs_version: 1.61.0
 volta_version: 2.0.2
 volta_dir: ~/.volta
 go_version: go1.23.3
+witr_version: v0.3.1
