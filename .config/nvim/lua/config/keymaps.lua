@@ -38,6 +38,8 @@ vim.api.nvim_create_user_command('Killws', [[% s/\s\+$//g]], {})
 
 vim.api.nvim_create_user_command('F', 'FZF <args>', { nargs = 1, complete = 'dir' })
 
+vim.api.nvim_create_user_command('Ex', 'RangerCurrentFile', {})
+
 -- Yank current file path into a register (default: system clipboard)
 vim.api.nvim_create_user_command('Yp', function(opts)
    local reg = opts.args ~= '' and opts.args or '+'
