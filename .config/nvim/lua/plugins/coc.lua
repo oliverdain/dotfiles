@@ -25,7 +25,7 @@ return {
             if vim.fn['coc#pum#visible']() == 1 then
                return vim.fn['coc#pum#next'](1)
             elseif check_back_space() then
-               return '<TAB>'
+               return '\t'
             else
                return vim.fn['coc#refresh']()
             end
