@@ -226,11 +226,23 @@
   stat:
     path: /usr/local/bin/fzf
   register: fzf_stat
-- name: install the latest version of fzf
+- name: check fzf version
+  command: /usr/local/bin/fzf --version
+  register: fzf_ver_out
+  when: fzf_stat.stat.exists
+- name: record whether fzf version is correct
+  set_fact:
+    fzf_version_correct: "{{ fzf_ver_out.stdout.split(' ')[0] == fzf_version }}"
+  when: fzf_stat.stat.exists
+- name: mark fzf version incorrect if not installed
+  set_fact:
+    fzf_version_correct: false
+  when: not fzf_stat.stat.exists
+- name: install fzf
   block:
     - name: download fzf
       get_url:
-        url: https://github.com/junegunn/fzf/releases/download/v0.66.0/fzf-0.66.0-linux_amd64.tar.gz
+        url: "https://github.com/junegunn/fzf/releases/download/v{{ fzf_version }}/fzf-{{ fzf_version }}-linux_amd64.tar.gz"
         dest: /tmp/fzf.tar.gz
     - name: extract fzf
       unarchive:
@@ -238,7 +250,7 @@
         include: fzf
         dest: /usr/local/bin
       become: true
-  when: not fzf_stat.stat.exists
+  when: not fzf_version_correct
 - name: get golang version
   command: /usr/local/go/bin/go version
   register: golang_check
