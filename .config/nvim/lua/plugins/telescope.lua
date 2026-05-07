@@ -3,7 +3,10 @@ return {
       "nvim-telescope/telescope.nvim",
       tag = "0.1.8",
       priority = 100,
-      dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+      -- I removed the dependency on nvim-treesitter/nvim-treesitter as (1) there was a bug causing errors with markdown
+      -- files (https://github.com/neovim/neovim/issues/39032) and (2) I wasn't really using it for anything - the only
+      -- thing it was used for here is the telescope symbol picker which I never use.
+      dependencies = { "nvim-lua/plenary.nvim" },
       config = function()
          require("telescope").setup()
          local builtin = require('telescope.builtin')
