@@ -21,7 +21,10 @@ end
 vim.api.nvim_create_autocmd('FileType', {
    pattern = 'python',
    callback = function()
-      vim.opt_local.errorformat:prepend('%.%#ERROR %f:%l:%c-%*[0-9]: %m,%.%#WARN %f:%l:%c-%*[0-9]: %m')
+      -- NOTE: do NOT use vim.opt_local.errorformat:append/prepend here — its option-list parser
+      -- mangles the default errorformat's "\,," (escaped-comma terminator + real separator),
+      -- producing a corrupted entry that triggers E377 the next time efm is parsed.
+      vim.bo.errorformat = vim.bo.errorformat .. ',%.%#ERROR %f:%l:%c-%*[0-9]: %m,%.%#WARN %f:%l:%c-%*[0-9]: %m'
       vim.opt_local.expandtab = true
       vim.opt_local.textwidth = 120
       vim.opt_local.spell = true
