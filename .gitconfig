@@ -46,6 +46,10 @@
    useHttpPath = true
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
+[credential "https://github.com/oliverdain/"]
+	helper = 
+   helper = cache --timeout 64800
+	helper = oauth -device
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
