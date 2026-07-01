@@ -23,13 +23,27 @@
     signed_by: https://updates.signal.org/desktop/apt/keys.asc
     state: present
   become: true
-- name: Add the Spotify apt repo
+- name: Remove the Spotify apt repo
   deb822_repository:
     name: spotify
     uris: http://repository.spotify.com
     suites: stable
     components: [ non-free ]
     signed_by: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
+    state: absent
+  become: true
+- name: Add the Claude Code Desktop repo
+  deb822_repository:
+    name: claude-code-desktop
+    types: deb
+    uris: https://downloads.claude.ai/claude-desktop/apt/stable
+    suites:
+      - stable
+    components:
+      - main
+    architectures:
+      - amd64
+    signed_by: https://downloads.claude.ai/claude-desktop/key.asc
     state: present
   become: true
 - name: Install standard GUI apps
@@ -41,6 +55,7 @@
       - spotify-client
       # This provides Google Drive access through KDE file manager
       - kio-gdrive
+      - claude-desktop
   become: true
 - name: See if Zotero is installed
   find:
