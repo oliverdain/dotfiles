@@ -52,6 +52,7 @@
        - podman
        # If using Wayland you need this to get clipboard integration with neovim working.
        - wl-clipboard
+       - git-credential-oauth
   become: true
   tags: [ std-pkg ]
 - name: symlink fdfind to fd
