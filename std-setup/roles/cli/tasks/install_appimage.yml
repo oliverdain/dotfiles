@@ -1,0 +1,26 @@
+# Parameters: app_name, appimage_url
+# Downloads to /tmp/{{ app_name }}.AppImage, extracts to ~/bin/{{ app_name }}-app, symlinks ~/bin/{{ app_name }}
+#
+# There's a few reasons to do this. First, it makes the app launch a bit faster as it doesn't have to extract the appimg
+# for each run. But the bigger one is some Linux distros periodically clean up /tmp, not just on boot, which means if
+# you have an appimage app open when the directory gets cleaned up the app breaks while you're using it.
+- name: download {{ app_name }} appimage
+  get_url:
+    url: "{{ appimage_url }}"
+    dest: "/tmp/{{ app_name }}.AppImage"
+    mode: u+x
+- name: extract {{ app_name }} appimage
+  command:
+    cmd: "/tmp/{{ app_name }}.AppImage --appimage-extract"
+    chdir: /tmp
+- name: move extracted {{ app_name }} to ~/bin
+  command: "mv /tmp/squashfs-root {{ ansible_env.HOME }}/bin/{{ app_name }}-app"
+- name: symlink {{ app_name }} to extracted AppRun
+  file:
+    src: "{{ ansible_env.HOME }}/bin/{{ app_name }}-app/AppRun"
+    dest: "{{ ansible_env.HOME }}/bin/{{ app_name }}"
+    state: link
+- name: clean up {{ app_name }} appimage
+  file:
+    path: "/tmp/{{ app_name }}.AppImage"
+    state: absent

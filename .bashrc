@@ -116,6 +116,7 @@ alias act='source $(find_up_f venv .venv)/bin/activate'
 alias sshc="ssh -o ControlMaster=auto -o ControlPath=~/.ssh/control-%r@%h:%p"
 alias sftpc="sftp -o ControlPath=~/.ssh/control-%r@%h:%p"
 alias scpc="scp -o ControlPath=~/.ssh/control-%r@%h:%p"
+alias rsyncc='rsync -e "ssh -o ControlPath=~/.ssh/control-%r@%h:%p"'
 
 cc() {
    echo "$@" | claude -p
